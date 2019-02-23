@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- 支持${USER_HOME} -->
+	<contextListener class="com.jeesite.modules.common.logback.LoggerStartupListener" />
+	
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyy-MM-dd HH:mm:ss.SSS,GMT+8} %-5level %logger{0} - %m%n</pattern>
+			<charset class="java.nio.charset.Charset">UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<appender name="rollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${USER_HOME}/logs/rxMgr/mgr.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${USER_HOME}/logs/rxMgr/mgr-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} %-5level %logger{0} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 只打印错误日志 -->
+	<appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">  
+	    <file>${USER_HOME}/logs/rxMgr/error.log</file>  
+	    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>$${USER_HOME}/logs/rxMgr/error.%i.log
+			</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>5</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>100MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%d{yyy-MM-dd HH:mm:ss.SSS,GMT+8} %logger{0} - %m%n</pattern>
+			<charset class="java.nio.charset.Charset">UTF-8</charset>
+		</encoder>
+	    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+	        <level>ERROR</level>  
+	        <onMatch>ACCEPT</onMatch>  
+	        <onMismatch>DENY</onMismatch>  
+	    </filter>  
+	</appender>
+	
+	<logger name="org.springframework" level="INFO"/>
+	<logger name="org.springframework.boot.web.filter" level="INFO"/>
+	<logger name="com.alibaba" level="INFO" />
+	<logger name="org.apache" level="INFO" />
+	<logger name="com.hk" level="DUBUG" />
+
+	<root level="INFO">
+		<appender-ref ref="console" />
+		<appender-ref ref="rollingFileAppender" />
+		<appender-ref ref="errorAppender" />
+	</root>
+	
+	<!-- Framework level setting -->
+	<include resource="config/logger-core.xml"/>
+	
+</configuration>

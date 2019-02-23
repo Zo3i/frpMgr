@@ -1,0 +1,73 @@
+<% layout('/layouts/default.html', {title: 'frp管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('frp管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('frp:frp:edit')){ %>
+					<a href="${ctx}/frp/form" class="btn btn-default btnTool" title="${text('新增frp')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${frp}" action="${ctx}/frp/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('项目名称')}：</label>
+					<div class="control-inline">
+						<#form:input path="projectName" maxlength="64" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('二级域名')}：</label>
+					<div class="control-inline">
+						<#form:input path="frpDomainSecond" maxlength="8" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('本地端口')}：</label>
+					<div class="control-inline">
+						<#form:input path="frpLocalPort" maxlength="6" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text('项目名称')}', name:'projectName', index:'a.project_name', width:150, align:"center", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/frp/form?id='+row.id+'" class="btnList" data-title="${text('编辑frp')}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text('二级域名')}', name:'frpDomainSecond', index:'a.frp_domain_second', width:150, align:"center"},
+		{header:'${text('本地端口')}', name:'frpLocalPort', index:'a.frp_local_port', width:150, align:"center"},
+		{header:'${text('操作')}', name:'actions', width:120, sortable:false, title:false, align:"center", formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('frp:frp:edit')){ %>
+				actions.push('<a href="${ctx}/frp/edit?id='+row.id+'" class="btnList" title="${text('编辑frp')}"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/frp/delete?id='+row.id+'" class="btnList" title="${text('删除frp')}" data-confirm="${text('确认要删除该frp吗？')}"><i class="fa fa-trash-o"></i></button>&nbsp;');
+				actions.push('<a href="${ctx}/frp/exportWin/'+row.id+'" class="btnList" title="${text('下载win配置')}">win</i></a>&nbsp;');
+				actions.push('<a href="${ctx}/frp/exportMac/'+row.id+'" class="btnList" title="${text('下载mac配置')}">mac</i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>

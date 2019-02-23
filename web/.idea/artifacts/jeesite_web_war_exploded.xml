@@ -1,0 +1,29 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="jeesite-web:war exploded">
+    <output-path>$PROJECT_DIR$/target/jeesite-web</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>jeesite-web</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="jeesite-web" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$MAVEN_REPOSITORY$/com/jeesite/jeesite-module-core/4.0.6-SNAPSHOT/jeesite-module-core-4.0.6-20181105.143908-3.jar" output-file-name="jeesite-module-core-4.0.6-SNAPSHOT.jar" />
+          <element id="file-copy" path="$MAVEN_REPOSITORY$/com/jeesite/jeesite-common/4.0.6-SNAPSHOT/jeesite-common-4.0.6-20180814.121828-1.jar" output-file-name="jeesite-common-4.0.6-SNAPSHOT.jar" />
+          <element id="file-copy" path="$MAVEN_REPOSITORY$/com/jeesite/jeesite-framework/4.0.6-SNAPSHOT/jeesite-framework-4.0.6-20181229.141852-17.jar" output-file-name="jeesite-framework-4.0.6-SNAPSHOT.jar" />
+          <element id="file-copy" path="$MAVEN_REPOSITORY$/com/jeesite/beetl/2.7-SNAPSHOT/beetl-2.7-20180330.115808-2.jar" output-file-name="beetl-2.7-SNAPSHOT.jar" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/jeesite-web/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="jeesite-web/web/Web" />
+    </root>
+  </artifact>
+</component>

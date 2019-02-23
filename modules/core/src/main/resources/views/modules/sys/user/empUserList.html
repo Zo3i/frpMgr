@@ -1,0 +1,218 @@
+<% layout('/layouts/default.html', {title: '用户管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa icon-user"></i> ${text('用户管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('sys:empUser:edit')){ %>
+					<a href="${ctx}/sys/empUser/form?op=add" class="btn btn-default btnTool" title="${text('新增用户')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+				<div class="btn-group">
+					<a href="javascript:" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-navicon"></i> <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="javascript:" id="btnExport"><i class="glyphicon glyphicon-export"></i> 导出</a></li>
+						<li><a href="javascript:" id="btnImport"><i class="glyphicon glyphicon-import"></i> 导入</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${empUser}" action="${ctx}/sys/empUser/listData" method="post" class="form-inline "
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('账号')}：</label>
+					<div class="control-inline">
+						<#form:input path="loginCode" maxlength="100" class="form-control width-90"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('昵称')}：</label>
+					<div class="control-inline">
+						<#form:input path="userName" maxlength="100" class="form-control width-90"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('邮箱')}：</label>
+					<div class="control-inline">
+						<#form:input path="email" maxlength="300" class="form-control width-90"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('手机')}：</label>
+					<div class="control-inline">
+						<#form:input path="mobile" maxlength="100" class="form-control width-90"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('电话')}：</label>
+					<div class="control-inline">
+						<#form:input path="phone" maxlength="100" class="form-control width-90"/>
+					</div>
+				</div>
+				<div class="form-row"></div>
+				<div class="form-group">
+					<label class="control-label">${text('姓名')}：</label>
+					<div class="control-inline">
+						<#form:input path="refName" maxlength="100" class="form-control width-90"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('机构')}：</label>
+					<div class="control-inline width-90">
+						<#form:treeselect id="office" title="${text('机构选择')}"
+								path="employee.office.officeCode" labelPath="employee.office.officeName" 
+								url="${ctx}/sys/office/treeData" btnClass="btn-sm" allowClear="true" canSelectParent="true"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('公司')}：</label>
+					<div class="control-inline width-90">
+						<#form:treeselect id="company" title="${text('公司选择')}"
+								path="employee.company.companyCode" labelPath="employee.company.companyName" 
+								url="${ctx}/sys/company/treeData" btnClass="btn-sm" allowClear="true" canSelectParent="true"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('岗位')}：</label>
+					<div class="control-inline width-90">
+						<#form:select name="employee.postCode" items="${postList}"
+							itemLabel="postName" itemValue="postCode" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('状态')}：</label>
+					<div class="control-inline width-90">
+						<#form:select path="status" dictType="sys_user_status" blankOption="true" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text('登录账号')}', name:'loginCode', index:'a.login_code', width:200, align:"center", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/sys/empUser/form?userCode='+row.userCode+'&op=edit" class="btnList" data-title="${text('编辑用户')}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text('用户昵称')}', name:'userName', index:'a.user_name', width:200, align:"center"},
+		{header:'${text('员工姓名')}', name:'refName', index:'a.ref_name', width:200, align:"center"},
+		{header:'${text('归属机构')}', name:'employee.office.officeName', index:'o.office_name', width:200, align:"center"},
+		{header:'${text('归属公司')}', name:'employee.company.companyName', index:'c.company_name', width:200, align:"center"},
+		{header:'${text('电子邮箱')}', name:'email', index:'a.email', width:200, align:"center"},
+		{header:'${text('手机号码')}', name:'mobile', index:'a.mobile', width:200, align:"center"},
+		{header:'${text('办公电话')}', name:'phone', index:'a.phone', width:200, align:"center"},
+		{header:'${text('更新时间')}', name:'updateDate', index:'a.update_date', width:200, align:"center"},
+		{header:'${text('状态')}', name:'status', index:'a.status', width:140, align:"center", formatter: function(val, obj, row, act){
+			return js.getDictLabel(${@DictUtils.getDictListJson('sys_status')}, val, '未知', true);
+		}},
+		{header:'${text('操作')}', name:'actions', width:260, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('sys:empUser:edit')){ %>
+				actions.push('<a href="${ctx}/sys/empUser/form?userCode='+row.userCode+'&op=edit" class="btnList" title="${text('编辑用户')}"><i class="fa fa-pencil"></i></a>&nbsp;');
+			<% } %>
+			<% if(hasPermi('sys:empUser:updateStatus')){ %>
+				if (row.status == Global.STATUS_NORMAL){
+					actions.push('<a href="${ctx}/sys/empUser/disable?userCode='+row.userCode+'" class="btnList" title="${text('停用用户')}" data-confirm="${text('确认要停用该用户吗？')}"><i class="glyphicon glyphicon-ban-circle"></i></a>&nbsp;');
+				}
+				if (row.status == Global.STATUS_DISABLE){
+					actions.push('<a href="${ctx}/sys/empUser/enable?userCode='+row.userCode+'" class="btnList" title="${text('启用用户')}" data-confirm="${text('确认要启用该用户吗？')}"><i class="glyphicon glyphicon-ok-circle"></i></a>&nbsp;');
+				}
+			<% } %>
+			<% if(hasPermi('sys:empUser:edit')){ %>
+				actions.push('<a href="${ctx}/sys/empUser/delete?userCode='+row.userCode+'" class="btnList" title="${text('删除用户')}" data-confirm="${text('确认要删除该用户吗？')}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			<% if(hasPermi('sys:empUser:authRole,sys:empUser:authDataScope,sys:empUser:resetpwd', 'or')){ %>
+				actions.push('<a href="javascript:" class="btnMore" title="${text('更多操作')}"><i class="fa fa-chevron-circle-right"></i></a>&nbsp;');
+				actions.push('<div class="moreItems">');
+				<% if(hasPermi('sys:empUser:authRole')){ %>
+					actions.push('<a href="${ctx}/sys/empUser/form?userCode='+row.userCode+'&op=auth" class="btn btn-default btn-xs btnList" title="${text('用户分配角色')}"><i class="fa fa-check-square-o"></i> ${text('分配角色')}</a>&nbsp;');
+				<% } %>
+				<% if(hasPermi('sys:empUser:authDataScope')){ %>
+					actions.push('<a href="${ctx}/sys/empUser/formAuthDataScope?userCode='+row.userCode+'" class="btn btn-default btn-xs btnList" title="${text('用户分配数据权限')}"><i class="fa fa-check-circle-o"></i> ${text('数据权限')}</a>&nbsp;');
+				<% } %>
+				<% if(hasPermi('sys:empUser:resetpwd')){ %>
+					actions.push('<a href="${ctx}/sys/empUser/resetpwd?userCode='+row.userCode+'" class="btn btn-default btn-xs btnList" title="${text('用户密码重置')}" data-confirm="${text('确认要将该用户密码重置到初始状态吗？')}"><i class="fa fa-reply-all"></i> ${text('重置密码')}</a>&nbsp;');
+				<% } %>
+				actions.push('</div>');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+$('#btnExport').click(function(){
+	js.ajaxSubmitForm($('#searchForm'), {
+		url:'${ctx}/sys/empUser/exportData',
+		downloadFile:true
+	});
+});
+$('#btnImport').click(function(){
+	js.layer.open({
+		type: 1,
+		area: ['400px'],
+		title: '导入用户数据',
+		resize: false,
+		scrollbar: true,
+		content: js.template('importTpl'),
+		success: function(layero, index){
+			layero.find('input[type="checkbox"]').iCheck();
+		},
+		btn: ['<i class="fa fa-check"></i> 导入',
+			'<i class="fa fa-remove"></i> 取消'],
+		btn1: function(index, layero){
+			var form = {
+				inputForm: layero.find('#inputForm'),
+				file: layero.find('#file').val()
+			};
+		    if (form.file == '' || (!js.endWith(form.file, '.xls') && !js.endWith(form.file, '.xlsx'))){
+		    	js.showMessage("${text('文件不正确，请选择后缀为 “xls”或“xlsx”的文件。')}", null, 'warning');
+		        return false;
+		    }
+			js.ajaxSubmitForm(form.inputForm, function(data){
+				js.showMessage(data.message);
+				if(data.result == Global.TRUE){
+					js.layer.closeAll();
+				}
+				page();
+			}, "json");
+			return true;
+		}
+	});
+});
+</script>
+<script id="importTpl" type="text/template">//<!--
+<form id="inputForm" action="${ctx}/sys/empUser/importData" method="post" enctype="multipart/form-data"
+	class="form-horizontal mt20 mb10" style="overflow:auto;max-height:200px;">
+	<div class="row">
+		<div class="col-xs-12 col-xs-offset-1">
+			<input type="file" id="file" name="file" class="form-file"/>
+			<div class="mt10 pt5">
+				<#form:checkbox name="updateSupport" label="${text('否更新已经存在的用户数据')}" class="form-control"
+					title="${text('如果用户编码已经存在，更新这条数据。')}"/> &nbsp;
+				<a href="${ctx}/sys/empUser/importTemplate" class="btn btn-default btn-xs"><i class="fa fa-file-excel-o"></i> ${text('下载模板')}</a>
+			</div>
+			<font color="red" class="pull-left mt10">
+				${text('提示：仅允许导入“xls”或“xlsx”格式文件！')}
+			</font>
+		</div>
+	</div>
+</form>
+//--></script>

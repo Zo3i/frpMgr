@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.atomikos:transactions-jms:3.9.3">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/atomikos/transactions-jms/3.9.3/transactions-jms-3.9.3.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/atomikos/transactions-jms/3.9.3/transactions-jms-3.9.3-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/atomikos/transactions-jms/3.9.3/transactions-jms-3.9.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,45 @@
+<% 
+@servlet.getResponse().setStatus(responseStatus!404);
+
+var message = @ObjectUtils.toString(@request.getAttribute("message"));
+
+if (isBlank(message)){
+	message = text('sys.error.404.message');
+}
+
+// 如果是异步请求或是手机端，则直接返回信息
+if (@ServletUtils.isAjaxRequest(request)) {
+	print(@ServletUtils.renderResult(@Global.FALSE, message));
+}
+
+// 输出异常信息页面
+else {
+%>
+<% layout('/layouts/default.html', {title: '404 - '+text('sys.error.404.title')}){ %>
+<link rel="stylesheet" href="${ctxStatic}/common/error.css?${_version}">
+<div class="error-page">
+	<div class="headline text-aqua mt20">404</div>
+	<div class="error-content">
+		<h3><i class="fa fa-warning text-aqua"></i> ${message}</h3>
+		<p>${text('sys.error.404.message.p1')}</p>
+		<ul>
+			<li>${text('sys.error.404.message.p2')}</li>
+			<li style="word-break:break-all;word-wrap:break-word;">
+				${text('sys.error.404.message.p3')}${
+					@EncodeUtils.encodeHtml(
+						@request.getAttribute('javax.servlet.forward.request_uri')
+					)
+				}</li>
+			<li>${text('sys.error.404.message.p4')}</li>
+			<li>......</li>
+		</ul>
+		<button type="button" class="btn btn-info btn-sm" onclick="history.go(-1);"><i
+			class="fa fa-reply-all"></i> ${text('sys.error.returnButton')}</button>
+	</div>
+	<div class="copyright">
+		&copy; ${@DateUtils.getYear()} ${@Global.getConfig('productName')} - Powered By <a
+			href="http://jeesite.com">JeeSite ${@Global.getProperty('jeesiteVersion')}</a>
+	</div>
+</div>
+<% } %>
+<% } %>

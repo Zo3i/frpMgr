@@ -1,0 +1,19 @@
+/*!
+ * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+ * 项目自定义的公共CSS，可覆盖jeesite.css里的样式
+ */
+.btn-file {position: relative;overflow: hidden;}
+.btn-file input[type=file] {position: absolute;top: 0;right: 0;min-width: 100%;min-height: 100%;font-size: 100px;text-align: right;filter: alpha(opacity=0);opacity: 0;outline: none;background: white;cursor: inherit;display: block;}
+.pointer{cursor:pointer;}
+.preview img{max-height: 80px;max-width: 80px;margin:5px;}
+
+/* video js */
+.video-container {margin:0px;background: #000;}
+.video-js {width: 100%;height: 100%;}
+.video-js .vjs-time-control{display:block;}
+.video-js .vjs-remaining-time{display: none;}
+.vjs-paused .vjs-big-play-button,
+.vjs-paused.vjs-has-started .vjs-big-play-button {display: block;}
+
+/** 附件上传 */
+.wup_container .wup_file .filetable .template-upload .msg .label{width: 150px;}

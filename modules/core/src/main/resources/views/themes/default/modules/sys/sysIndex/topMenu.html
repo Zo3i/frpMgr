@@ -1,0 +1,25 @@
+<nav class="navbar navbar-static-top">
+	<div class="logo" data-toggle="push-menu">
+		<b>${@Global.getConfig('productName')}</b>
+		<small>&nbsp; &nbsp;<i class="fa fa-bars"></i></small>
+	</div>
+	<%/*<!--%><a href="javascript:" class="sidebar-toggle" data-toggle="push-menu" role="button">
+		<span class="sr-only">菜单切换</span><span class="icon-bar"></span>
+		<span class="icon-bar"></span><span class="icon-bar"></span>
+	</a><%-->*/%>
+	<div class="navbar-custom-menu">
+		<ul class="nav navbar-nav">
+			<% if(__info_type == '0'){ %>
+			<li><a href="http://jeesite.com" target="_blank"><i class="fa fa-diamond"></i> 官方网站</a></li>
+			<% } %>
+			<li><a href="javascript:" id="fullScreen" title="${text('全屏')}"><i class="fa fa-arrows-alt"></i></a></li>
+			<li><a href="javascript:" id="switchSkin" title="${text('切换主题')}" style="margin-top:-1px;"><i class="fa fa-dashboard"></i></a></li>
+			<% include('topMenuLang.html'){} %>
+			<% include('topMenuOnline.html'){} %>
+			<% include('topMenuMsg.html'){} %>
+			<% //include('topMenuNotify.html'){} %>
+			<% //include('topMenuTask.html'){} %>
+			<% include('topMenuUser.html'){} %>
+		</ul>
+	</div>
+</nav>

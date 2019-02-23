@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: JeeSite Module Template
+Implementation-Version: 4.0.6-SNAPSHOT
+Built-By: linwei
+Implementation-Vendor-Id: com.jeesite
+Build-Jdk: 1.8.0_161
+Implementation-URL: http://jeesite.com
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: JeeSite
+

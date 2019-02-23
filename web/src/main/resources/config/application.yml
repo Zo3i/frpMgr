@@ -1,0 +1,15 @@
+server:
+  port: 8999
+  context-path: /frp
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  profiles: 
+    active: local
+  main: 
+    banner-mode: "off"
+
+shiro: 
+  filterChainDefinitions: 
+    ${adminPath}/third/** = anon
