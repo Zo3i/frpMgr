@@ -19,7 +19,7 @@
 							<label class="control-label col-sm-4" title="">
 								<span class="required hide">*</span> ${text('服务器名称')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-8">
-								<#form:input path="serverName" maxlength="255" class="form-control"/>
+								<#form:input path="serverName" maxlength="255" class="form-control required"/>
 							</div>
 						</div>
 					</div>
@@ -28,7 +28,7 @@
 							<label class="control-label col-sm-4" title="">
 								<span class="required hide">*</span> ${text('服务器ip')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-8">
-								<#form:input path="serverIp" maxlength="20" class="form-control"/>
+								<#form:input path="serverIp" maxlength="20" class="form-control required"/>
 							</div>
 						</div>
 					</div>
@@ -37,7 +37,7 @@
 							<label class="control-label col-sm-4" title="">
 								<span class="required hide">*</span> ${text('域名')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-8">
-								<#form:input path="subdomainHost" maxlength="16" class="form-control"/>
+								<#form:input path="subdomainHost" maxlength="16" class="form-control required"/>
 							</div>
 						</div>
 					</div>

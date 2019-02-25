@@ -20,7 +20,7 @@
 							<label class="control-label col-sm-2" title="">
 								<span class="required hide">*</span> ${text('项目名称')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-5">
-								<#form:input path="projectName" maxlength="64" class="form-control"/>
+								<#form:input path="projectName" maxlength="64" class="form-control required"/>
 							</div>
 						</div>
 					</div>
@@ -31,7 +31,7 @@
 							<label class="control-label col-sm-2" title="">
 								<span class="required hide">*</span> ${text('二级域名')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-5">
-								<#form:input path="frpDomainSecond" maxlength="8" class="form-control"/>
+								<#form:input path="frpDomainSecond" maxlength="8" class="form-control required"/>
 							</div>
 						</div>
 					</div>
@@ -42,7 +42,7 @@
 							<label class="control-label col-sm-2" title="">
 								<span class="required hide">*</span> ${text('本地端口')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-5">
-								<#form:input path="frpLocalPort" maxlength="6" class="form-control"/>
+								<#form:input path="frpLocalPort" maxlength="6" class="form-control required"/>
 							</div>
 						</div>
 					</div>
