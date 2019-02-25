@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jeesite.modules.common.utils.ZipUtils;
+import com.jeesite.modules.frp.entity.FrpServer;
+import com.jeesite.modules.frp.service.FrpServerService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -40,6 +43,8 @@ public class FrpController extends BaseController {
 
 	@Autowired
 	private FrpService frpService;
+	@Autowired
+	private FrpServerService frpServerService;
 
 	/**
 	 * 获取数据
@@ -76,7 +81,9 @@ public class FrpController extends BaseController {
 	@RequiresPermissions("frp:frp:view")
 	@RequestMapping(value = "form")
 	public String form(Frp frp, Model model) {
+		List<FrpServer> servers = frpServerService.findList(new FrpServer());
 		model.addAttribute("frp", frp);
+		model.addAttribute("servers", servers);
 		return "modules/frp/frpForm";
 	}
 
@@ -87,7 +94,9 @@ public class FrpController extends BaseController {
 	@RequestMapping(value = "edit")
 	public String edit(String id, Model model) {
 		Frp frp = frpService.get(id);
+		List<FrpServer> servers = frpServerService.findList(new FrpServer());
 		model.addAttribute("frp", frp);
+		model.addAttribute("servers", servers);
 		return "modules/frp/frpForm";
 	}
 
@@ -136,9 +145,9 @@ public class FrpController extends BaseController {
     @ResponseBody
     public void exportWin(@PathVariable String id, HttpServletResponse response) throws IOException {
         Frp frp = frpService.get(id);
+        FrpServer frpServer = frpServerService.get(String.valueOf(frp.getServerId()));
 
-
-        // 源文件目录
+        //创建临时文件夹
 		String zipName = UUID.randomUUID().toString();
 		String dir = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator;
 		String dir_client = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator + "client";
@@ -147,6 +156,7 @@ public class FrpController extends BaseController {
         File origin_file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "static/frp/frp-client");
         org.apache.commons.io.FileUtils.copyDirectory(origin_file, srcDir);
 
+        //读取frpc.ini
         File temp_file = new File(dir_client + File.separator +"frpc.ini");
         StringBuffer res = new StringBuffer();
         String line = null;
@@ -164,6 +174,7 @@ public class FrpController extends BaseController {
         temp_string = temp_string.replaceAll("project_name", projectName);
         temp_string = temp_string.replaceAll("frp_subdomain", subdomain);
         temp_string = temp_string.replaceAll("frp_local_port", localport);
+        temp_string = temp_string.replaceAll("frp_server_addr", frpServer.getServerIp());
         writer.write(temp_string);
 		writer.flush();
 		writer.close();
@@ -195,6 +206,7 @@ public class FrpController extends BaseController {
     @ResponseBody
     public void exportMac(@PathVariable String id, HttpServletResponse response) throws IOException {
         Frp frp = frpService.get(id);
+        FrpServer frpServer = frpServerService.get(String.valueOf(frp.getServerId()));
 
         // 源文件目录
 		String zipName = UUID.randomUUID().toString();
@@ -206,6 +218,7 @@ public class FrpController extends BaseController {
         File origin_file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "static/frp/frp-client-mac");
         org.apache.commons.io.FileUtils.copyDirectory(origin_file, srcDir);
 
+         //读取frpc.ini
         File temp_file = new File(dir_client + File.separator +"frpc.ini");
         StringBuffer res = new StringBuffer();
         String line = null;
@@ -223,10 +236,10 @@ public class FrpController extends BaseController {
         temp_string = temp_string.replaceAll("project_name", projectName);
         temp_string = temp_string.replaceAll("frp_subdomain", subdomain);
         temp_string = temp_string.replaceAll("frp_local_port", localport);
+        temp_string = temp_string.replaceAll("frp_server_addr", frpServer.getServerIp());
         writer.write(temp_string);
 		writer.flush();
 		writer.close();
-
 
         String zipFilePath = System.getProperty("java.io.tmpdir") + File.separator + zipName + "zip";
         ZipUtils.zip(dir, zipFilePath);
@@ -241,7 +254,6 @@ public class FrpController extends BaseController {
            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
            response.setContentType("application/octet-stream");
            response.setHeader("Content-Disposition", "attachment;filename=" + "client.zip");
-
 
            toClient.write(buffer);
            toClient.flush();

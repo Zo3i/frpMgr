@@ -1,0 +1,13 @@
+<% layout('/layouts/default.html', {title: '', bodyClass: ''}){ %>
+<!-- <link rel="stylesheet" href="${ctxStatic}/modules/sys/sysDesktop.css?${_version}"> -->
+<div class="content pb0">
+	欢迎!
+</div>
+<% } %>
+<script>
+$(window).resize(function(){
+	var footerHeight  = $('.main-footer').outerHeight() || 0;
+	var windowHeight  = $(window).height();
+	$('.content').css('min-height', windowHeight - footerHeight)
+}).resize();
+</script>

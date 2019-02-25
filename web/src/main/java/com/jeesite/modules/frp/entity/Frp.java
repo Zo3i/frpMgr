@@ -13,13 +13,14 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 /**
  * frpEntity
  * @author jo
- * @version 2019-02-23
+ * @version 2019-02-25
  */
 @Table(name="frp", alias="a", columns={
 		@Column(name="id", attrName="id", label="id", isPK=true),
 		@Column(name="project_name", attrName="projectName", label="项目名称", queryType=QueryType.LIKE),
 		@Column(name="frp_domain_second", attrName="frpDomainSecond", label="二级域名"),
 		@Column(name="frp_local_port", attrName="frpLocalPort", label="本地端口"),
+		@Column(name="server_id", attrName="serverId", label="服务器"),
 	}, orderBy="a.id DESC"
 )
 public class Frp extends DataEntity<Frp> {
@@ -28,6 +29,9 @@ public class Frp extends DataEntity<Frp> {
 	private String projectName;		// 项目名称
 	private String frpDomainSecond;		// 二级域名
 	private String frpLocalPort;		// 本地端口
+	private Long serverId;		// 服务器
+	private String serverName;
+
 	
 	public Frp() {
 		this(null);
@@ -64,4 +68,19 @@ public class Frp extends DataEntity<Frp> {
 		this.frpLocalPort = frpLocalPort;
 	}
 	
+	public Long getServerId() {
+		return serverId;
+	}
+
+	public void setServerId(Long serverId) {
+		this.serverId = serverId;
+	}
+
+	public String getServerName() {
+		return serverName;
+	}
+
+	public void setServerName(String serverName) {
+		this.serverName = serverName;
+	}
 }
