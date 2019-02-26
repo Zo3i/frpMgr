@@ -6,6 +6,7 @@ package com.jeesite.modules.frp.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jeesite.modules.common.utils.JarFileUtil;
 import com.jeesite.modules.common.utils.ZipUtils;
 import com.jeesite.modules.frp.entity.Frp;
 import org.apache.commons.lang.StringUtils;
@@ -121,12 +122,11 @@ public class FrpServerController extends BaseController {
         // 源文件目录
 		String zipName = UUID.randomUUID().toString();
 		String dir = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator;
-		String dir_client = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator + "client";
+		String dir_client = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator + "server";
 		File srcDir = new File(dir_client);
 
 		//拷贝到临时文件夹
-        File origin_file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "static/frp/server");
-        org.apache.commons.io.FileUtils.copyDirectory(origin_file, srcDir);
+        JarFileUtil.BatCopyFileFromJar("static/frp/server", dir_client);
 
          //读取frpc.ini
         File temp_file = new File(dir_client + File.separator +"frps.ini");

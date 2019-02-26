@@ -9,8 +9,8 @@
 		<version>4.0.6-SNAPSHOT</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
-	
-	<artifactId>jeesite-web</artifactId>
+
+	<artifactId>frp</artifactId>
 	<packaging>jar</packaging>
 	
 	<name>JeeSite Boot</name>
@@ -29,22 +29,18 @@
 
 
 		<!--docker支持-->
-		<docker.image.prefix>jeesite-web</docker.image.prefix>
+		<docker.image.prefix>frp</docker.image.prefix>
 	</properties>
 
 	<dependencies>
-		
+
 		<!-- Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
-		<!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency> -->
+
 		
 		<!-- 核心模块 -->
 		<dependency>
@@ -70,7 +66,7 @@
 			<version>1.2.23</version>
 		</dependency>
 
-		
+
 		<!--阿里云oss服务、sts -->
 		<dependency>
 			<groupId>com.aliyun.oss</groupId>
@@ -88,29 +84,6 @@
 			<version>4.0.6</version>
 		</dependency>
 		
-		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-ooxml</artifactId>
-		    <version>3.16</version>
-		</dependency>
-		
-		<!-- 自定义jar依赖包演示
-		<dependency>
-			<groupId>com.jeesite</groupId>
-			<artifactId>test-core</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/test-core-1.0.jar</systemPath>
-		</dependency> -->
-
-		<!-- https://mvnrepository.com/artifact/com.eclipsesource.j2v8/j2v8_win32_x86_64 -->
-		<dependency>
-			<groupId>com.eclipsesource.j2v8</groupId>
-			<artifactId>j2v8_win32_x86_64</artifactId>
-			<version>4.6.0</version>
-		</dependency>
-
-		
 	</dependencies>
 	
 	<build>
@@ -123,11 +96,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!-- <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-			</plugin> -->
-			
+
 			<!-- 打包插件, war包名称不带版本号 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -156,26 +125,6 @@
 				</configuration>
 			</plugin>
 
-			<!-- Docker maven plugin -->
-		<plugin>
-			<groupId>com.spotify</groupId>
-			<artifactId>docker-maven-plugin</artifactId>
-			<version>1.0.0</version>
-			<configuration>
-				<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-				<dockerDirectory>src/main/docker</dockerDirectory>
-				<resources>
-					<resource>
-						<targetPath>/</targetPath>
-						<directory>${project.build.directory}</directory>
-						<include>${project.build.finalName}.jar</include>
-					</resource>
-				</resources>
-			</configuration>
-		</plugin>
-		<!-- Docker maven plugin -->
-
-
 		</plugins>
 		<pluginManagement><!-- http://blog.csdn.net/tanga842428/article/details/73550016 -->
 			<plugins>
@@ -184,6 +133,22 @@
 					<configuration>
 						<encoding>utf-8</encoding>
 						<useDefaultDelimiters>true</useDefaultDelimiters>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>com.spotify</groupId>
+					<artifactId>docker-maven-plugin</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+						<dockerDirectory>src/main/docker</dockerDirectory>
+						<resources>
+							<resource>
+								<targetPath>/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<include>${project.build.finalName}.jar</include>
+							</resource>
+						</resources>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -257,23 +222,4 @@
 		</pluginRepository>
 
 	</pluginRepositories>
-
-	<profiles>
-		<profile>
-			<id>local</id>
-			<properties>
-				<profiles.active>local</profiles.active>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-		<profile>
-			<id>demo</id>
-			<properties>
-				<profiles.active>demo</profiles.active>
-			</properties>
-		</profile>
-	</profiles>
-	
 </project>

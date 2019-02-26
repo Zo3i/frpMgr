@@ -6,13 +6,19 @@ package com.jeesite.modules.frp.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jeesite.modules.common.utils.JarFileUtil;
 import com.jeesite.modules.common.utils.ZipUtils;
 import com.jeesite.modules.frp.entity.FrpServer;
 import com.jeesite.modules.frp.service.FrpServerService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -153,8 +159,7 @@ public class FrpController extends BaseController {
 		String dir_client = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator + "client";
 		File srcDir = new File(dir_client);
 		//拷贝到临时文件夹
-        File origin_file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "static/frp/frp-client");
-        org.apache.commons.io.FileUtils.copyDirectory(origin_file, srcDir);
+		JarFileUtil.BatCopyFileFromJar("static/frp/frp-client", dir_client);
 
         //读取frpc.ini
         File temp_file = new File(dir_client + File.separator +"frpc.ini");
@@ -215,8 +220,7 @@ public class FrpController extends BaseController {
 		File srcDir = new File(dir_client);
 
 		//拷贝到临时文件夹
-        File origin_file = ResourceUtils.getFile(ResourceUtils.CLASSPATH_URL_PREFIX + "static/frp/frp-client-mac");
-        org.apache.commons.io.FileUtils.copyDirectory(origin_file, srcDir);
+        JarFileUtil.BatCopyFileFromJar("static/frp/frp-client-mac", dir_client);
 
          //读取frpc.ini
         File temp_file = new File(dir_client + File.separator +"frpc.ini");

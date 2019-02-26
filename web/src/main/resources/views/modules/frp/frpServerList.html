@@ -71,9 +71,9 @@ $('#dataGrid').dataGrid({
 			return '<a href="${ctx}/frp/frpServer/form?id='+row.id+'" class="btnList" data-title="${text('编辑frp_server')}">'+(val||row.id)+'</a>';
 		}},
 		{header:'${text('服务器ip')}', name:'serverIp', index:'a.server_ip', width:150, align:"center"},
-		{header:'${text('域名')}', name:'subdomainHost', index:'a.subdomain_host', width:150, align:"center"},
-		{header:'${text('web端口')}', name:'webPort', index:'a.web_port', width:150, align:"center"},
-		{header:'${text('FRP面板端口')}', name:'dashboardPort', index:'a.dashboard_port', width:150, align:"center", frozen:true},
+		{header:'${text('域名')}', name:'subdomainHost', index:'a.subdomain_host', width:100, align:"center"},
+		{header:'${text('web端口')}', name:'webPort', index:'a.web_port', width:80, align:"center"},
+		{header:'${text('FRP面板端口')}', name:'dashboardPort', index:'a.dashboard_port', width:80, align:"center", frozen:true},
 		{header:'${text('FRP面板账户')}', name:'dashboardUser', index:'a.dashboard_user', width:150, align:"center"},
 		{header:'${text('FRP面板密码')}', name:'dashboardPwd', index:'a.dashboard_pwd', width:150, align:"center"},
 		{header:'${text('操作')}', name:'actions', width:120, sortable:false, align:"center", title:false, formatter: function(val, obj, row, act){

@@ -1,0 +1,25 @@
+version : '2'
+services:
+  mysql:
+    image: jo/mysql
+    volumes:
+           - ./src/main/docker/mysql/my.cnf:/root/mysql/my.cnf mysql
+    environment:
+       - MYSQL_ROOT_PASSWORD=123456
+    ports:
+       - "3306:3306"
+    expose:
+       - "3306"
+
+  frp:
+    build: frp
+    volumes:
+      - ./w.sh:/w.sh
+    ports:
+      - "8999:8999"
+    restart: always
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    entrypoint: "./w.sh mysql:3306 -- java -jar /app.jar"
