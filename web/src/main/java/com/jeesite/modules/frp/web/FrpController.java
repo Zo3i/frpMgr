@@ -18,6 +18,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -158,9 +159,10 @@ public class FrpController extends BaseController {
 		String dir = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator;
 		String dir_client = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator + "client";
 		File srcDir = new File(dir_client);
+		System.out.println("临时文件夹准备");
 		//拷贝到临时文件夹
 		JarFileUtil.BatCopyFileFromJar("static/frp/frp-client", dir_client);
-
+		System.out.println("拷贝到临时文件夹");
         //读取frpc.ini
         File temp_file = new File(dir_client + File.separator +"frpc.ini");
         StringBuffer res = new StringBuffer();
@@ -170,6 +172,7 @@ public class FrpController extends BaseController {
 		    res.append(line + "\n");
 		}
         reader.close();
+        System.out.println("读取文件");
         BufferedWriter writer = new BufferedWriter(new FileWriter(temp_file));
         String temp_string = res.toString();
         //替换模板
@@ -183,12 +186,11 @@ public class FrpController extends BaseController {
         writer.write(temp_string);
 		writer.flush();
 		writer.close();
-
+        System.out.println("替换模板");
 
         String zipFilePath = System.getProperty("java.io.tmpdir") + File.separator + zipName + "zip";
         ZipUtils.zip(dir, zipFilePath);
         File zipFile = new File(zipFilePath);
-	        System.out.println("succeed");
            // 以流的形式下载文件。
            BufferedInputStream fis = new BufferedInputStream(new FileInputStream(zipFile.getPath()));
            byte[] buffer = new byte[fis.available()];
@@ -205,10 +207,10 @@ public class FrpController extends BaseController {
            toClient.close();
            FileUtils.deleteDirectory(srcDir);
            zipFile.delete();
+        System.out.println("succeed");
     }
 
     @RequestMapping("/exportMac/{id}")
-    @ResponseBody
     public void exportMac(@PathVariable String id, HttpServletResponse response) throws IOException {
         Frp frp = frpService.get(id);
         FrpServer frpServer = frpServerService.get(String.valueOf(frp.getServerId()));
@@ -257,7 +259,7 @@ public class FrpController extends BaseController {
            response.reset();
            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
            response.setContentType("application/octet-stream");
-           response.setHeader("Content-Disposition", "attachment;filename=" + "client.zip");
+           response.setHeader("content-disposition", "attachment;filename=" + "client.zip");
 
            toClient.write(buffer);
            toClient.flush();

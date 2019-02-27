@@ -14,19 +14,7 @@ public class JarFileUtil {
             Resource[] resources = resolver.getResources(path+"/*");
             for(int i=0;i<resources.length;i++) {
                 Resource resource=resources[i];
-
-                try {
-                    //以jar运行时，resource.getFile().isFile() 无法获取文件类型，会报异常，抓取异常后直接生成新的文件即可；以非jar运行时，需要判断文件类型，避免如果是目录会复制错误，将目录写成文件。
-                    if(resource.getFile().isFile()) {
-                        makeFile(newpath+"/"+resource.getFilename());
-                        InputStream stream = resource.getInputStream();
-                        write2File(stream, newpath+"/"+resource.getFilename());
-                    }
-                }catch (Exception e) {
-                    makeFile(newpath+"/"+resource.getFilename());
-                    InputStream stream = resource.getInputStream();
-                    write2File(stream, newpath+"/"+resource.getFilename());
-                }
+                org.apache.commons.io.FileUtils.copyInputStreamToFile(resource.getInputStream(), new File(newpath + File.separator + resource.getFilename()));
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -59,9 +59,10 @@ $('#dataGrid').dataGrid({
 			var actions = [];
 			<% if(hasPermi('frp:frp:edit')){ %>
 				actions.push('<a href="${ctx}/frp/edit?id='+row.id+'" class="btnList" title="${text('编辑frp')}"><i class="fa fa-pencil"></i></a>&nbsp;');
-				actions.push('<a href="${ctx}/frp/delete?id='+row.id+'" class="btnList" title="${text('删除frp')}" data-confirm="${text('确认要删除该frp吗？')}"><i class="fa fa-trash-o"></i></button>&nbsp;');
-				actions.push('<a href="${ctx}/frp/exportWin/'+row.id+'" class="btnList" title="${text('下载win配置')}">win</i></a>&nbsp;');
-				actions.push('<a href="${ctx}/frp/exportMac/'+row.id+'" class="btnList" title="${text('下载mac配置')}">mac</i></a>&nbsp;');
+				actions.push('<a href="${ctx}/frp/delete?id='+row.id+'" class="btnList" title="${text('删除frp')}" data-confirm="${text('确认要删除该frp吗？')}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+				// actions.push('<a href="#" onclick="download('+ row.id +')" class="btnList" title="${text('下载win配置')}">win</i></a>&nbsp;');
+                actions.push('<a style="cursor:pointer;" onclick="downloadWin(\''+row.id+'\')">win</a>&nbsp;')
+                actions.push('<a style="cursor:pointer;" onclick="downloadMac(\''+row.id+'\')">mac</a>')
 			<% } %>
 			return actions.join('');
 		}}
@@ -71,4 +72,14 @@ $('#dataGrid').dataGrid({
 		
 	}
 });
+	function downloadWin(id) {
+        console.log(id)
+        window.open("${ctx}/frp/exportWin/" + id)
+	}
+
+    function downloadMac(id) {
+        console.log(id)
+        window.open("${ctx}/frp/exportMac/" + id)
+	}
+
 </script>
