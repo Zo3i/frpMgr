@@ -117,7 +117,7 @@ public class FrpController extends BaseController {
 	public String save(@Validated Frp frp) {
 
 		//判断是否存在项目名称一样的或存在二级域名一样的;
-		Frp isExist = frpService.isExist(frp.getProjectName(), frp.getFrpDomainSecond());
+		Frp isExist = frpService.isExist(frp.getProjectName(), frp.getFrpDomainSecond(), String.valueOf(frp.getServerId()));
 		if (isExist == null) {
 			frpService.save(frp);
 		} else {

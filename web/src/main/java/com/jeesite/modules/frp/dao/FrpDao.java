@@ -15,5 +15,5 @@ import org.apache.ibatis.annotations.Param;
  */
 @MyBatisDao
 public interface FrpDao extends CrudDao<Frp> {
-	Frp isExist(@Param("proName") String proName, @Param("domain") String domain);
+	Frp isExist(@Param("proName") String proName, @Param("domain") String domain, @Param("serverId") String serverId);
 }

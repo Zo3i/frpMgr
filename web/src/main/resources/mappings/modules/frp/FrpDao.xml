@@ -32,6 +32,7 @@
 
 	<select id="isExist" resultType="Frp">
 		select * from frp
-		where frp_domain_second = #{domain} or project_name = #{proName}
+		where (frp_domain_second = #{domain} and server_id = #{serverId})
+		or (project_name = #{proName} and server_id = #{serverId}) limit 1
 	</select>
 </mapper>

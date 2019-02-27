@@ -29,6 +29,7 @@
 
 
 		<!--docker支持-->
+		<!--mvn clean package docker:build-->
 		<docker.image.prefix>frp</docker.image.prefix>
 	</properties>
 
