@@ -80,8 +80,8 @@
 				if (true === settings.validate_extensions && $.inArray(ext, settings.valid_extensions) == -1) {
 					// Pass back to the user
 					settings.onComplete.apply($element, [ {
-						success : false,// Modify by linwei 20150820
-						msg : '文件格式有误! 文件扩展名必须为' + settings.valid_extensions.join(', ') + '。'// Modify by linwei 20150820
+						success : false,
+						msg : '文件格式有误! 文件扩展名必须为' + settings.valid_extensions.join(', ') + '。'
 						//status : false,
 						//message : 'The select file type is invalid. File must be ' + settings.valid_extensions.join(', ') + '.'
 					}, settings.params ]);

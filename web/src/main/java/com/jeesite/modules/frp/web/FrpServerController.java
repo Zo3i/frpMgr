@@ -87,7 +87,7 @@ public class FrpServerController extends BaseController {
 	@ResponseBody
 	public String save(@Validated FrpServer frpServer) {
 		if (StringUtils.isBlank(frpServer.getDashboardPort())) {
-			frpServer.setDashboardPort("7000");
+			frpServer.setDashboardPort("7500");
 		}
 		if (StringUtils.isBlank(frpServer.getDashboardUser())) {
 			frpServer.setDashboardUser("admin");

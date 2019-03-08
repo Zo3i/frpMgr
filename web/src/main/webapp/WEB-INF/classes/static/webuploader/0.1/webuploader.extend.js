@@ -723,7 +723,7 @@
 					for (var N = 0; N < O.length; N++) {
 						var M = O[N],
 							K = M.fileEntity.ossUrlThumbnail ? M.fileEntity.ossUrlThumbnail : (ctxAdmin + "/file/download/" + M.id),
-							P = (M.id == "" ? K : (M.fileEntity.ossUrl ? M.fileEntity.ossUrl : ctxAdmin + "/file/download/" + M.id)); // modify by linwei 20180927
+							P = (M.id == "" ? K : (M.fileEntity.ossUrl ? M.fileEntity.ossUrl : ctxAdmin + "/file/download/" + M.id));
 						if (w) {
 							$li = b('<li id="' + M.id + '"><p class="title"><a target="_blank" href="' + P + '">' + M.fileName + '</a></p><p class="imgWrap"><img src="' + K + '"/></p><p class="progress"><span></span></p><div class="file-panel"><span class="cancel ' + (!t.readonly ? "" : "hide") + '" fileUploadId="' + M.id + '" fileUrl="' + K + '" fileName="' + M.fileName + '" fileSize="' + M.fileEntity.fileSize + '">' + s("删除") + "</span></div>" + (M.message ? M.message : "") + "</li>"), $li.on("click", ".imgWrap img", function() {
 								var R = b(this),

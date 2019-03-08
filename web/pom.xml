@@ -28,7 +28,7 @@
 		<eclipse-plugin-download-javadocs>false</eclipse-plugin-download-javadocs>
 
 
-		<!--docker支持-->
+		<!--1.docker支持-->
 		<!--mvn clean package docker:build-->
 		<docker.image.prefix>frp</docker.image.prefix>
 	</properties>
@@ -125,6 +125,25 @@
 					<jeeversion>6.0</jeeversion>
 				</configuration>
 			</plugin>
+
+			<!-- Docker maven plugin -->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+					<dockerDirectory>src/main/docker</dockerDirectory>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+			<!-- Docker maven plugin -->
 
 		</plugins>
 		<pluginManagement><!-- http://blog.csdn.net/tanga842428/article/details/73550016 -->
