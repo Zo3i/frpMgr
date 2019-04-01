@@ -4,6 +4,7 @@ services:
     image: jo/mysql
     volumes:
            - ./src/main/docker/mysql/my.cnf:/root/mysql/my.cnf mysql
+    command: --max_allowed_packet=32505856
     environment:
        - MYSQL_ROOT_PASSWORD=123456
     ports:
