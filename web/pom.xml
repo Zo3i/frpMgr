@@ -30,7 +30,7 @@
 
 		<!--1.docker支持-->
 		<!--mvn clean package docker:build-->
-		<docker.image.prefix>frp</docker.image.prefix>
+		<docker.image.prefix>zxx267/frp</docker.image.prefix>
 	</properties>
 
 	<dependencies>
@@ -39,7 +39,8 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
+			<!--docker :compile old:provided -->
+			<scope>compile</scope>
 		</dependency>
 
 		
@@ -91,7 +92,30 @@
 		<finalName>${finalName}</finalName>
 		<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory>
 		<plugins>
-			
+
+<!--jib  mvn compile jib:build-->
+<plugin>
+   <groupId>com.google.cloud.tools</groupId>
+	<artifactId>jib-maven-plugin</artifactId>
+	<version>1.0.2</version>
+	<configuration>
+		<from>
+			<image>openjdk:alpine</image>
+		</from>
+		<to>
+			<image>registry.hub.docker.com/zxx267/frp</image>
+		</to>
+	</configuration>
+	<executions>
+		<execution>
+			<phase>package</phase>
+			<goals>
+				<goal>build</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+
 			<!-- Spring Boot -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
