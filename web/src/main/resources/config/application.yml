@@ -16,7 +16,7 @@ jdbc:
   # Mysql 数据库配置(Docker)
   type: mysql
   driver: com.mysql.jdbc.Driver
-  url: jdbc:mysql://j6cm70w513grj0w24lo.mysql.rds.aliyuncs.com:3306/frp?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+  url: jdbc:mysql://rm-j6cm70w513grj0w24lo.mysql.rds.aliyuncs.com:3306/frp?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
   username: root
   password: Abc12345
 
