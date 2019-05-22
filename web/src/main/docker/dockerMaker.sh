@@ -8,7 +8,6 @@ docker rmi -f $filename
 
 # 构建docker
 cd $workspace
-rm -rm ./*
 touch Dockerfile
 cat>Dockerfile<<EOF
 FROM java:8
