@@ -11,6 +11,7 @@ import com.jeesite.modules.common.utils.ZipUtils;
 import com.jeesite.modules.frp.entity.FrpServer;
 import com.jeesite.modules.frp.service.FrpServerService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 /**
  * frpController
@@ -52,6 +54,7 @@ public class FrpController extends BaseController {
 	private FrpService frpService;
 	@Autowired
 	private FrpServerService frpServerService;
+	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * 获取数据
@@ -78,7 +81,7 @@ public class FrpController extends BaseController {
 	@RequestMapping(value = "listData")
 	@ResponseBody
 	public Page<Frp> listData(Frp frp, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("测试Jenkins");
+		log.info("#####################################################################");
 		Page<Frp> page = frpService.findPage(new Page<Frp>(request, response), frp); 
 		return page;
 	}
