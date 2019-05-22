@@ -81,8 +81,9 @@ public class FrpController extends BaseController {
 	@RequestMapping(value = "listData")
 	@ResponseBody
 	public Page<Frp> listData(Frp frp, HttpServletRequest request, HttpServletResponse response) {
-		log.info("###################################测试构建############################");
-		Page<Frp> page = frpService.findPage(new Page<Frp>(request, response), frp); 
+		log.warn("###################################测试构建############################");
+		Page<Frp> page = frpService.findPage(new Page<Frp>(request, response), frp);
+		log.warn("###################################测试构建############################");
 		return page;
 	}
 
