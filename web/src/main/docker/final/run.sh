@@ -1,7 +1,7 @@
 #!/bin/sh
 rm -rf ./frpMgr
 #down file
-https://github.com/Zo3i/frpMgr.git
+git clone https://github.com/Zo3i/frpMgr.git
 #enter path
 cd ./frpMgr/web/src/main/docker/final
 chmod -R 755 ./*
