@@ -49,7 +49,36 @@
 		</div>
 	</div>
 </div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					请输入服务器密码
+				</h4>
+			</div>
+			<div class="modal-body">
+				密码: &nbsp;<input type="password" id="passwd">
+				<input type="hidden" id = "serverId">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary" onclick="install()">
+					安装
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+
 <% } %>
+
 <script>
 // 初始化DataGrid对象
 $('#dataGrid').dataGrid({
@@ -67,7 +96,7 @@ $('#dataGrid').dataGrid({
 			<% if(hasPermi('frp:frpServer:edit')){ %>
 				actions.push('<a href="${ctx}/frp/frpServer/form?id='+row.id+'" class="btnList" title="${text('编辑frp_server')}"><i class="fa fa-pencil"></i></a>&nbsp;');
 				actions.push('<a href="${ctx}/frp/frpServer/delete?id='+row.id+'" class="btnList" title="${text('删除frp_server')}" data-confirm="${text('确认要删除该frp_server吗？')}"><i class="fa fa-trash-o"></i></a>&nbsp;');
-                actions.push('<a style="cursor:pointer;" onclick="fastFrp(\''+row.id+'\')">远程安装</a>&nbsp;')
+                actions.push('<a style="cursor:pointer;"  onclick="fastFrp(\''+row.id+'\')">远程安装</a>&nbsp;')
 			<% } %>
 			return actions.join('');
 		}}
@@ -82,22 +111,29 @@ $('#dataGrid').dataGrid({
         window.open("${ctx}/frp/frpServer/exportServer/" + id)
 	}
 
-    function fastFrp(id) {
-        var passwd =  prompt("请输入服务器的密码","")
-        if (passwd!=null && passwd!="") {
-            $.ajax({
-                url: "${ctx}/frp/frpServer/fastFrp/" + id + "/" + passwd,
-                method : "post",
-                contentType : "application/json",// 发送信息至服务器时内容编码类型:json格式
-                datatype : "json",
-                success: function () {
-                    alert("远程安装成功！")
-                },
-                error: function () {
-                    alert("安装失败！")
-                }
-            })
+	function install() {
+		var passwd = $("#passwd").val()
+		var serverId = $("#serverId").val()
+		$('#myModal').modal('hide')
+		if (passwd!=null && passwd!="" && serverId!=null && serverId!="") {
+		    $.ajax({
+		        url: "${ctx}/frp/frpServer/fastFrp/" + serverId + "/" + passwd,
+		        method : "post",
+		        contentType : "application/json",// 发送信息至服务器时内容编码类型:json格式
+		        datatype : "json",
+		        success: function () {
+		            alert("远程安装成功！")
+		        },
+		        error: function () {
+		            alert("安装失败！")
+		        }
+		    })
+		}
+	}
 
-        }
+    function fastFrp(id) {
+		$("#passwd").val("")
+		$("#serverId").val(id)
+		$('#myModal').modal('show')
     }
 </script>

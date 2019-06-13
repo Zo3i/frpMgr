@@ -114,69 +114,6 @@ public class FrpServerController extends BaseController {
 		return renderResult(Global.TRUE, text("删除frp_server成功！"));
 	}
 
-	@RequestMapping("/exportServer/{id}")
-    @ResponseBody
-    public void exportServer(@PathVariable String id, HttpServletResponse response) throws IOException {
-
-		FrpServer frpServer = frpServerService.get(id);
-
-        // 源文件目录
-		String zipName = UUID.randomUUID().toString();
-		String dir = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator;
-		String dir_client = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator + "server";
-		File srcDir = new File(dir_client);
-
-		//拷贝到临时文件夹
-        JarFileUtil.BatCopyFileFromJar("static/frp/server", dir_client);
-
-         //读取frpc.ini
-        File temp_file = new File(dir_client + File.separator +"frps.ini");
-        StringBuffer res = new StringBuffer();
-        String line = null;
-		BufferedReader reader = new BufferedReader(new FileReader(temp_file));
-        while ((line = reader.readLine()) != null) {
-		    res.append(line + "\n");
-		}
-        reader.close();
-        BufferedWriter writer = new BufferedWriter(new FileWriter(temp_file));
-        String temp_string = res.toString();
-        //替换模板
-//		String webPort = frpServer.getWebPort();
-//		String dashboardPort = frpServer.getDashboardPort();		// FRP面板端口
-//		String dashboardUser = frpServer.getDashboardUser();		// FRP面板账户
-//		String dashboardPwd = frpServer.getDashboardPwd();		// FRP面板密码
-//		String subdomainHost = frpServer.getSubdomainHost();		// 域名
-//
-//        temp_string = temp_string.replaceAll("frp_vhost_http_port", webPort);
-//        temp_string = temp_string.replaceAll("frp_dashboard_port", dashboardPort);
-//        temp_string = temp_string.replaceAll("frp_dashboard_user", dashboardUser);
-//        temp_string = temp_string.replaceAll("frp_dashboard_pwd", dashboardPwd);
-//		temp_string = temp_string.replaceAll("frp_subdomain_host", subdomainHost);
-
-        writer.write(temp_string);
-		writer.flush();
-		writer.close();
-
-        String zipFilePath = System.getProperty("java.io.tmpdir") + File.separator + zipName + "zip";
-        ZipUtils.zip(dir, zipFilePath);
-        File zipFile = new File(zipFilePath);
-	        System.out.println("succeed");
-           // 以流的形式下载文件。
-           BufferedInputStream fis = new BufferedInputStream(new FileInputStream(zipFile.getPath()));
-           byte[] buffer = new byte[fis.available()];
-           fis.read(buffer);
-           fis.close();
-           response.reset();
-           OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-           response.setContentType("application/octet-stream");
-           response.setHeader("Content-Disposition", "attachment;filename=" + "server.zip");
-
-           toClient.write(buffer);
-           toClient.flush();
-           toClient.close();
-           FileUtils.deleteDirectory(srcDir);
-           zipFile.delete();
-    }
 
 	/**
 	 * 远程安装FRP
