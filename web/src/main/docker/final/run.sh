@@ -1,5 +1,13 @@
 #!/bin/sh
 rm -rf ./frpMgr
+
+if command -v git >/dev/null 2>&1; then
+  echo 'exists'
+else
+  echo 'no exists'
+  yum install -y git
+fi
+
 #down file
 git clone https://github.com/Zo3i/frpMgr.git
 #enter path
