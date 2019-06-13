@@ -164,10 +164,10 @@ public class FrpController extends BaseController {
 		String dir = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator;
 		String dir_client = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator + "client";
 		File srcDir = new File(dir_client);
-		System.out.println("临时文件夹准备");
+		log.info("临时文件夹准备");
 		//拷贝到临时文件夹
 		JarFileUtil.BatCopyFileFromJar("static/frp/frp-client", dir_client);
-		System.out.println("拷贝到临时文件夹");
+		log.info("拷贝到临时文件夹");
         //读取frpc.ini
         File temp_file = new File(dir_client + File.separator +"frpc.ini");
         StringBuffer res = new StringBuffer();
@@ -177,7 +177,7 @@ public class FrpController extends BaseController {
 		    res.append(line + "\n");
 		}
         reader.close();
-        System.out.println("读取文件");
+        log.info("读取文件");
         BufferedWriter writer = new BufferedWriter(new FileWriter(temp_file));
         String temp_string = res.toString();
         //替换模板
@@ -191,7 +191,7 @@ public class FrpController extends BaseController {
         writer.write(temp_string);
 		writer.flush();
 		writer.close();
-        System.out.println("替换模板");
+        log.info("替换模板");
 
         String zipFilePath = System.getProperty("java.io.tmpdir") + File.separator + zipName + "zip";
         ZipUtils.zip(dir, zipFilePath);
@@ -212,7 +212,7 @@ public class FrpController extends BaseController {
            toClient.close();
            FileUtils.deleteDirectory(srcDir);
            zipFile.delete();
-        System.out.println("succeed");
+        log.info("succeed");
     }
 
     @RequestMapping("/exportMac/{id}")
@@ -255,7 +255,7 @@ public class FrpController extends BaseController {
         String zipFilePath = System.getProperty("java.io.tmpdir") + File.separator + zipName + "zip";
         ZipUtils.zip(dir, zipFilePath);
         File zipFile = new File(zipFilePath);
-	        System.out.println("succeed");
+	        log.info("succeed");
            // 以流的形式下载文件。
            BufferedInputStream fis = new BufferedInputStream(new FileInputStream(zipFile.getPath()));
            byte[] buffer = new byte[fis.available()];

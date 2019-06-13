@@ -55,29 +55,9 @@
 					<div class="col-xs-7">
 						<div class="form-group">
 							<label class="control-label col-sm-4" title="">
-								<span class="required hide">*</span> ${text('FRP面板端口')}：<i class="fa icon-question hide"></i></label>
+								<span class="required hide">*</span> ${text('服务器用户名')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-8">
-								<#form:input path="dashboardPort" placeHolder="不填默认7000" maxlength="6" class="form-control"/>
-							</div>
-						</div>
-					</div>
-					<div class="col-xs-7">
-						<div class="form-group">
-							<label class="control-label col-sm-4" title="">
-								<span class="required hide">*</span> ${text('FRP面板账户')}：<i class="fa icon-question hide"></i></label>
-							<div class="col-sm-8">
-								<#form:input path="dashboardUser" placeHolder="不填默认admin" maxlength="32" class="form-control"/>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-7">
-						<div class="form-group">
-							<label class="control-label col-sm-4" title="">
-								<span class="required hide">*</span> ${text('FRP面板密码')}：<i class="fa icon-question hide"></i></label>
-							<div class="col-sm-8">
-								<#form:input path="dashboardPwd" placeHolder="不填默认admin" maxlength="128" class="form-control"/>
+								<#form:input path="userName"  maxlength="128" class="form-control"/>
 							</div>
 						</div>
 					</div>

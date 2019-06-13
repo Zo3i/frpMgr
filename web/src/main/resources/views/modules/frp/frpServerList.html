@@ -16,21 +16,9 @@
 			<#form:form id="searchForm" model="${frpServer}" action="${ctx}/frp/frpServer/listData" method="post" class="form-inline hide"
 					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
 				<div class="form-group">
-					<label class="control-label">${text('FRP面板端口')}：</label>
-					<div class="control-inline">
-						<#form:input path="dashboardPort" maxlength="6" class="form-control width-120"/>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label">${text('FRP面板账户')}：</label>
-					<div class="control-inline">
-						<#form:input path="dashboardUser" maxlength="32" class="form-control width-120"/>
-					</div>
-				</div>
-				<div class="form-group">
 					<label class="control-label">${text('FRP面板密码')}：</label>
 					<div class="control-inline">
-						<#form:input path="dashboardPwd" maxlength="128" class="form-control width-120"/>
+						<#form:input path="userName" maxlength="128" class="form-control width-120"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -73,16 +61,13 @@ $('#dataGrid').dataGrid({
 		{header:'${text('服务器ip')}', name:'serverIp', index:'a.server_ip', width:150, align:"center"},
 		{header:'${text('域名')}', name:'subdomainHost', index:'a.subdomain_host', width:100, align:"center"},
 		{header:'${text('web端口')}', name:'webPort', index:'a.web_port', width:80, align:"center"},
-		{header:'${text('FRP面板端口')}', name:'dashboardPort', index:'a.dashboard_port', width:80, align:"center", frozen:true},
-		{header:'${text('FRP面板账户')}', name:'dashboardUser', index:'a.dashboard_user', width:150, align:"center"},
-		{header:'${text('FRP面板密码')}', name:'dashboardPwd', index:'a.dashboard_pwd', width:150, align:"center"},
+		{header:'${text('服务器用户名')}', name:'userName', index:'a.user_name', width:80, align:"center", frozen:true},
 		{header:'${text('操作')}', name:'actions', width:120, sortable:false, align:"center", title:false, formatter: function(val, obj, row, act){
 			var actions = [];
 			<% if(hasPermi('frp:frpServer:edit')){ %>
 				actions.push('<a href="${ctx}/frp/frpServer/form?id='+row.id+'" class="btnList" title="${text('编辑frp_server')}"><i class="fa fa-pencil"></i></a>&nbsp;');
 				actions.push('<a href="${ctx}/frp/frpServer/delete?id='+row.id+'" class="btnList" title="${text('删除frp_server')}" data-confirm="${text('确认要删除该frp_server吗？')}"><i class="fa fa-trash-o"></i></a>&nbsp;');
-				actions.push('<a style="cursor:pointer;" onclick="downloadServer(\''+row.id+'\')">服务端配置</a>&nbsp;')
-				// actions.push('<a href="${ctx}/frp/frpServer/exportServer/'+row.id+'" class="btnList" title="${text('下载服务端配置')}">服务端配置</i></a>&nbsp;');
+                actions.push('<a style="cursor:pointer;" onclick="fastFrp(\''+row.id+'\')">远程安装</a>&nbsp;')
 			<% } %>
 			return actions.join('');
 		}}
@@ -94,7 +79,25 @@ $('#dataGrid').dataGrid({
 });
 
 	function downloadServer(id) {
-        console.log(id)
         window.open("${ctx}/frp/frpServer/exportServer/" + id)
 	}
+
+    function fastFrp(id) {
+        var passwd =  prompt("请输入服务器的密码","")
+        if (passwd!=null && passwd!="") {
+            $.ajax({
+                url: "${ctx}/frp/frpServer/fastFrp/" + id + "/" + passwd,
+                method : "post",
+                contentType : "application/json",// 发送信息至服务器时内容编码类型:json格式
+                datatype : "json",
+                success: function () {
+                    alert("远程安装成功！")
+                },
+                error: function () {
+                    alert("安装失败！")
+                }
+            })
+
+        }
+    }
 </script>
