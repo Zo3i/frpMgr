@@ -130,6 +130,10 @@ public class FrpServerController extends BaseController {
 			shellUtil.execute(shell,"bash fastFrp.sh " + frpServer.getWebPort() + " " + frpServer.getSubdomainHost());
 
 			ArrayList<String> stdout = shell.getStandardOutput();
+			if (stdout.size() == 0) {
+				throw new RuntimeException("服务器密码错误。");
+			}
+
 			for (String str : stdout) {
 				logger.info(str);
 			}
