@@ -12,6 +12,7 @@ wget -O - https://raw.githubusercontent.com/Zo3i/frpMgr/master/web/src/main/dock
 **注：代码仅在Centos7系统上通过测试**
 
 - 访问:你的服务器 ip:8999/frp 账号 **admin** 密码 **12345678**
+- 查看日志命令：1. docker ps 2. docker logs -f --tail 10 java项目的容器ID
 
 如果需要修改代码,请自行编译 jar 脚本替换成品中的 jar 脚本重新部署即可...
 
@@ -31,6 +32,6 @@ wget -O - https://raw.githubusercontent.com/Zo3i/frpMgr/master/web/src/main/dock
 ![](https://i.bmp.ovh/imgs/2019/06/aad52e0b2b110dc5.png)
 ---
 ![](https://i.bmp.ovh/imgs/2019/06/dd24c12ddfa62e4e.png)
-- 远程安装frps服务，需填写服务器密码（无需担心密码泄露，没有保存到数据库。）
+- 远程安装frps服务，需填写服务器密码**(无需担心密码泄露，没有保存到数据库。)**
 ---
 - 等待FRP服务安装完成之后，配置客户端配置，即可使用了。
