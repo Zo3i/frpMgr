@@ -32,6 +32,6 @@ wget -O - https://raw.githubusercontent.com/Zo3i/frpMgr/master/web/src/main/dock
 ![](https://i.bmp.ovh/imgs/2019/06/aad52e0b2b110dc5.png)
 ---
 ![](https://i.bmp.ovh/imgs/2019/06/dd24c12ddfa62e4e.png)
-- 远程安装frps服务，需填写服务器密码**(无需担心密码泄露，没有保存到数据库。)**
+- 远程安装frps服务，需填写服务器密码(**无需担心密码泄露，没有保存到数据库。**)
 ---
 - 等待FRP服务安装完成之后，配置客户端配置，即可使用了。
