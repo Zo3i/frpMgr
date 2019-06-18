@@ -81,9 +81,7 @@ public class FrpController extends BaseController {
 	@RequestMapping(value = "listData")
 	@ResponseBody
 	public Page<Frp> listData(Frp frp, HttpServletRequest request, HttpServletResponse response) {
-		log.warn("###################################修改以后的测试构建############################");
 		Page<Frp> page = frpService.findPage(new Page<Frp>(request, response), frp);
-		log.warn("###################################修改以后的测试构建############################");
 		return page;
 	}
 
@@ -120,7 +118,6 @@ public class FrpController extends BaseController {
 	@PostMapping(value = "save")
 	@ResponseBody
 	public String save(@Validated Frp frp) {
-
 		//判断是否存在项目名称一样的或存在二级域名一样的;
 		Frp isExist = frpService.isExist(frp.getProjectName(), frp.getFrpDomainSecond(), String.valueOf(frp.getServerId()));
 		if (isExist == null) {

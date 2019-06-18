@@ -99,6 +99,9 @@ public class FrpServerController extends BaseController {
 		if (StringUtils.isBlank(frpServer.getWebPort())) {
 			frpServer.setWebPort("8080");
 		}
+		if (StringUtils.isBlank(frpServer.getUserName())) {
+			frpServer.setUserName("root");
+		}
 		frpServerService.save(frpServer);
 		return renderResult(Global.TRUE, text("保存frp_server成功！"));
 	}
