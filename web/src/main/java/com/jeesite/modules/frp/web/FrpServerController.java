@@ -124,23 +124,27 @@ public class FrpServerController extends BaseController {
 	@RequiresPermissions("frp:frpServer:edit")
 	@RequestMapping(value = "fastFrp/{id}/{passwd}")
 	@ResponseBody
-	public void fastFrp(@PathVariable("id") String id, @PathVariable("passwd") String passwd) {
+	public String fastFrp(@PathVariable("id") String id, @PathVariable("passwd") String passwd) {
 		FrpServer frpServer = frpServerService.get(id);
 		if (frpServer != null) {
 			Shell shell = new Shell(frpServer.getServerIp(), frpServer.getUserName(), passwd);
-			shellUtil.execute(shell,"if [ ! -f \"fastFrp.sh\" ];then wget https://raw.githubusercontent.com/Zo3i/OCS/master/frp/fastFrp.sh; fi");
-			shellUtil.execute(shell,"chmod 755 fastFrp.sh");
-			shellUtil.execute(shell,"bash fastFrp.sh " + frpServer.getWebPort() + " " + frpServer.getSubdomainHost());
+			try {
+				shellUtil.execute(shell,"if [ ! -f \"fastFrp.sh\" ];then wget https://raw.githubusercontent.com/Zo3i/OCS/master/frp/fastFrp.sh; fi");
+				shellUtil.execute(shell,"chmod 755 fastFrp.sh");
+				shellUtil.execute(shell,"bash fastFrp.sh " + frpServer.getWebPort() + " " + frpServer.getSubdomainHost());
+			} catch (RuntimeException e) {
+				logger.info(e.toString().split(":")[1]);
+				return e.toString().split(":")[1];
+			}
+
 
 			ArrayList<String> stdout = shell.getStandardOutput();
-			if (stdout.size() == 0) {
-				throw new RuntimeException("服务器密码错误。");
-			}
 
 			for (String str : stdout) {
 				logger.info(str);
 			}
 		}
+		return "安装成功！";
 	}
 
 	

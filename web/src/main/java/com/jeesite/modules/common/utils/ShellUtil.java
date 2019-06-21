@@ -66,6 +66,7 @@ public class ShellUtil {
         } catch (JSchException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            throw new RuntimeException("服务器连接异常：" + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }

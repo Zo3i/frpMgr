@@ -121,11 +121,12 @@ $('#dataGrid').dataGrid({
 		        method : "post",
 		        contentType : "application/json",// 发送信息至服务器时内容编码类型:json格式
 		        datatype : "json",
-		        success: function () {
-		            alert("远程安装成功！")
+		        success: function (e) {
+		        	console.log(e)
+		            alert(e)
 		        },
-		        error: function () {
-		            alert("密码错误！")
+		        error: function (e) {
+					alert(e)
 		        }
 		    })
 		}
