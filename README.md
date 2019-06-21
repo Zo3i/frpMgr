@@ -6,10 +6,10 @@
 ### 部署教程
 
 ```shell
-wget -O - https://raw.githubusercontent.com/Zo3i/OCS/master/docker/dockerInstall.sh | sh
+wget -O - https://raw.githubusercontent.com/Zo3i/OCS/master/docker/docker-all.sh | sh |
 wget -O - https://raw.githubusercontent.com/Zo3i/frpMgr/master/web/src/main/docker/final/run.sh | sh
 ```
-**注：代码仅在Centos7系统上通过测试**
+**注：代码仅在Centos7,Debian9系统上通过测试**
 
 - 访问:你的服务器 ip:8999/frp 账号 **admin** 密码 **12345678**
 - 查看日志命令：1. docker ps 2. docker logs -f --tail 10 java项目的容器ID
