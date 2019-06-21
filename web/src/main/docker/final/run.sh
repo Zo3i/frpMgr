@@ -6,6 +6,12 @@ getOsName()
     if grep -Eqii "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
         DISTRO='CentOS'
         PM='yum'
+        if command -v git >/dev/null 2>&1; then
+            echo 'exists'
+            else
+              echo 'no exists'
+              yum install -y git
+            fi
     elif grep -Eqi "Red Hat Enterprise Linux Server" /etc/issue || grep -Eq "Red Hat Enterprise Linux Server" /etc/*-release; then
         DISTRO='RHEL'
         PM='yum'
@@ -18,6 +24,12 @@ getOsName()
     elif grep -Eqi "Debian" /etc/issue || grep -Eq "Debian" /etc/*-release; then
         DISTRO='Debian'
         PM='apt'
+        if command -v git >/dev/null 2>&1; then
+          echo 'exists'
+        else
+          echo 'no exists'
+          apt-get install git
+        fi
     elif grep -Eqi "Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
         DISTRO='Ubuntu'
         PM='apt'
@@ -29,16 +41,7 @@ getOsName()
     fi
     echo $DISTRO;
 }
-
-if command -v git >/dev/null 2>&1; then
-  echo 'exists'
-else
-  echo 'no exists'
-  if [ getOsName = 'CentOs' ];
-  then yum install -y git
-  if [ getOsName = 'Debian' ];
-    then apt-get install git
-fi
+getOsName
 
 #down file
 git clone https://github.com/Zo3i/frpMgr.git
@@ -48,5 +51,5 @@ chmod -R 755 ./*
 cd ./mysql
 docker build -t jo/mysql .
 cd ..
-sudo docker-compose build
-sudo docker-compose up -d
+docker-compose build
+docker-compose up -d
