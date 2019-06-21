@@ -11,7 +11,7 @@ getOsName()
             else
               echo 'no exists'
               yum install -y git
-            fi
+        fi
     elif grep -Eqi "Red Hat Enterprise Linux Server" /etc/issue || grep -Eq "Red Hat Enterprise Linux Server" /etc/*-release; then
         DISTRO='RHEL'
         PM='yum'
@@ -28,7 +28,7 @@ getOsName()
           echo 'exists'
         else
           echo 'no exists'
-          apt-get install git
+          apt-get install -y git
         fi
     elif grep -Eqi "Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
         DISTRO='Ubuntu'
