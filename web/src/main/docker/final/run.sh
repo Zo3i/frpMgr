@@ -33,6 +33,12 @@ getOsName()
     elif grep -Eqi "Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
         DISTRO='Ubuntu'
         PM='apt'
+        if command -v git >/dev/null 2>&1; then
+            echo 'exists'
+        else
+            echo 'no exists'
+            apt-get install -y git
+        fi
     elif grep -Eqi "Raspbian" /etc/issue || grep -Eq "Raspbian" /etc/*-release; then
         DISTRO='Raspbian'
         PM='apt'
