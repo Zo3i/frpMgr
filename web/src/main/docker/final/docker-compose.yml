@@ -8,7 +8,7 @@ services:
     environment:
        - MYSQL_ROOT_PASSWORD=123456
     ports:
-       - "3306:3306"
+       - "3306"
     expose:
        - "3306"
 
@@ -17,7 +17,7 @@ services:
     volumes:
       - ./w.sh:/w.sh
     ports:
-      - "8999:8999"
+      - "8999"
     restart: always
     depends_on:
       - mysql

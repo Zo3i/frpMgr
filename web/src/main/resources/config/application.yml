@@ -13,7 +13,7 @@ shiro:
     ${adminPath}/third/** = anon
 
 jdbc:
-  # Mysql 数据库配置(Docker)
+  # Mysql 数据库配置
   type: mysql
   driver: com.mysql.jdbc.Driver
   url: jdbc:mysql://rm-j6cm70w513grj0w24lo.mysql.rds.aliyuncs.com:3306/frp?useSSL=false
@@ -21,7 +21,7 @@ jdbc:
   password: Abc12345
 
 #jdbc:
-#  # Mysql 数据库配置(开发)
+#  # Mysql 数据库配置(远程)
 #  type: mysql
 #  driver: com.mysql.jdbc.Driver
 #  url: jdbc:mysql://localhost:3306/frp?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
@@ -30,7 +30,7 @@ jdbc:
 
 
 #jdbc:
-#  # Mysql 数据库配置
+#  # Mysql 数据库配置(Docker)
 #  type: mysql
 #  driver: com.mysql.jdbc.Driver
 #  url: jdbc:mysql://mysql:3306/frp?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
