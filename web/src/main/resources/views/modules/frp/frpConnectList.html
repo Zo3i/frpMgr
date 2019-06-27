@@ -4,6 +4,17 @@
 		<div class="box-header">
 			<div class="box-title">
 				<i class="fa fa-list-alt"></i> ${text('frp连接管理')}
+				<input id="flashData" class="btn btn-primary " type="button" value="刷新">
+			</div>
+			<div class="box-tools pull-right">
+				<div style="width: 150px">
+					<#form:select path="map" items="${map}" id="action" itemLabel="key" itemValue="value" class="form-control" />
+				</div>
+			</div> &nbsp;&nbsp;
+			<div class="box-tools pull-right">
+				<div style="width: 150px">
+					<#form:select path="serverId" id="server" items="${servers}" itemLabel="serverName" itemValue="id" class="form-control" />
+				</div>
 			</div>
 		</div>
 		<div class="box-body">
@@ -49,7 +60,6 @@
 <script>
 // 初始化DataGrid对象
 $('#dataGrid').dataGrid({
-	searchForm: $("#searchForm"),
 	columnModel: [
 		{header:'${text('项目名称')}', name:'name',  width:150, align:"center"},
 		{header:'${text('上行流量')}', name:'today_traffic_in',  width:150, align:"center",formatter: function(val, obj, row, act){
@@ -62,21 +72,58 @@ $('#dataGrid').dataGrid({
 		{header:'${text('最后连接时间')}', name:'last_start_time', width:80, align:"center", frozen:true},
 		{header:'${text('客户端状态')}', name:'status', width:80, align:"center", frozen:true,formatter: function(val, obj, row, act){
 				return val == "offline" ? '<span style="color: red">离线</span>' : '<span style="color: green">在线</span>'
-		}},
-		// {header:'${text('操作')}', name:'actions', width:120, sortable:false, align:"center", title:false, formatter: function(val, obj, row, act){
-		// 	var actions = [];
-		// 	<% if(hasPermi('frp:frpServer:edit')){ %>
-		// 		actions.push('<a href="${ctx}/frp/frpServer/form?id='+row.id+'" class="btnList" title="${text('编辑frp_server')}"><i class="fa fa-pencil"></i></a>&nbsp;');
-		// 		actions.push('<a href="${ctx}/frp/frpServer/delete?id='+row.id+'" class="btnList" title="${text('删除frp_server')}" data-confirm="${text('确认要删除该frp_server吗？')}"><i class="fa fa-trash-o"></i></a>&nbsp;');
-        //         actions.push('<a style="cursor:pointer;"  onclick="fastFrp(\''+row.id+'\')">远程安装</a>&nbsp;')
-		// 	<% } %>
-		// 	return actions.join('');
-		// }}
+		}}
 	],
 	// 加载成功后执行事件
 	ajaxSuccess: function(data){
 		
 	}
 });
+
+
+function clearDataGrid(){
+	//获取当前页的记录数
+	var item = $('#dataGrid').dataGrid('getRows');
+	for (var i = item.length - 1; i >= 0; i--) {
+		var index = $('#dataGrid').dataGrid('getRowIndex', item[i]);
+		$('#dataGrid').dataGrid('deleteRow', index);
+	}
+}
+
+
+function update(serverId, action) {
+	$.ajax({
+		url: "${ctx}/frp/frpConnect/list/" + serverId + "/" + action,
+		method : "post",
+		contentType : "application/json",
+		datatype : "json",
+		success: function (e) {
+			if (e.length > 0) {
+				$('#dataGrid').dataGrid('clearGridData');
+				$("#dataGrid")[0].addJSONData(e);
+			} else {
+				$('#dataGrid').dataGrid('clearGridData');
+			}
+
+		},
+		error: function (e) {
+			$('#dataGrid').dataGrid('clearGridData');
+		}
+	})
+
+
+}
+
+$('#server').change(function () {
+	update($('#server').val(), $('#action').val())
+})
+
+$('#action').change(function () {
+	update($('#server').val(), $('#action').val())
+})
+
+$("#flashData").click(function () {
+	update($('#server').val(), $('#action').val())
+})
 
 </script>

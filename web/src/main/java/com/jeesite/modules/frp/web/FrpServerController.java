@@ -6,10 +6,15 @@ package com.jeesite.modules.frp.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonParser;
 import com.jeesite.modules.common.utils.JarFileUtil;
 import com.jeesite.modules.common.utils.ShellUtil;
+import com.jeesite.modules.common.utils.WebHttpUtils;
 import com.jeesite.modules.common.utils.ZipUtils;
 import com.jeesite.modules.frp.entity.Frp;
+import com.jeesite.modules.frp.entity.FrpConnect;
 import com.jeesite.modules.frp.entity.Shell;
 import com.sun.xml.bind.v2.TODO;
 import org.apache.commons.lang.StringUtils;
@@ -32,6 +37,8 @@ import com.jeesite.modules.frp.service.FrpServerService;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -137,7 +144,6 @@ public class FrpServerController extends BaseController {
 				return e.toString().split(":")[1];
 			}
 
-
 			ArrayList<String> stdout = shell.getStandardOutput();
 
 			for (String str : stdout) {
@@ -147,5 +153,5 @@ public class FrpServerController extends BaseController {
 		return "安装成功！";
 	}
 
-	
+
 }
