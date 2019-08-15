@@ -14,6 +14,7 @@ import com.jeesite.modules.frp.entity.FrpConnect;
 import com.jeesite.modules.frp.entity.FrpServer;
 import com.jeesite.modules.frp.entity.Shell;
 import com.jeesite.modules.frp.service.FrpServerService;
+import com.jeesite.modules.sys.entity.User;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -68,12 +69,6 @@ public class FrpConnectController extends BaseController {
 	@ResponseBody
 	public Page<FrpConnect> listData() {
 		List<FrpConnect> list = new ArrayList<>();
-//		String content = WebHttpUtils.get("http://47.88.169.121:7500/api/proxy/http",null, map);
-//		JSONArray array = (JSONArray) JSONObject.parseObject(content).get("proxies");
-//		for (Object i : array) {
-//			FrpConnect s = JSONObject.parseObject(((JSONObject) i).toJSONString(), FrpConnect.class);
-//			list.add(s);
-//		}
 		Page<FrpConnect> page =  new Page<FrpConnect>(1, 100, list.size(), list);
 		return page;
 	}

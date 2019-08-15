@@ -10,6 +10,7 @@ import com.jeesite.modules.common.utils.JarFileUtil;
 import com.jeesite.modules.common.utils.ZipUtils;
 import com.jeesite.modules.frp.entity.FrpServer;
 import com.jeesite.modules.frp.service.FrpServerService;
+import com.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,7 @@ public class FrpController extends BaseController {
 	@RequestMapping(value = "listData")
 	@ResponseBody
 	public Page<Frp> listData(Frp frp, HttpServletRequest request, HttpServletResponse response) {
+		frp.setUserId(UserUtils.getUser().getId());
 		Page<Frp> page = frpService.findPage(new Page<Frp>(request, response), frp);
 		return page;
 	}
@@ -121,6 +123,7 @@ public class FrpController extends BaseController {
 		//判断是否存在项目名称一样的或存在二级域名一样的;
 		Frp isExist = frpService.isExist(frp.getProjectName(), frp.getFrpDomainSecond(), String.valueOf(frp.getServerId()));
 		if (isExist == null) {
+			frp.setUserId(UserUtils.getUser().getId());
 			frpService.save(frp);
 		} else {
 			return renderResult(Global.TRUE, text("项目名或二级域名冲突！"));

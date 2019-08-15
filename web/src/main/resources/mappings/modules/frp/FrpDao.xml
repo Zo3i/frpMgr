@@ -17,6 +17,7 @@
 		SELECT c.*, s.server_name
 		FROM frp c
 		left join frp_server s on c.server_id = s.id
+		left join js_sys_user u on c.user_id = u.user_code
 		<where>
 			<if test="projectName != null and projectName != '' ">
                 AND c.project_name like concat('%',#{projectName},'%')
@@ -27,6 +28,9 @@
             <if test="frpLocalPort != null and frpLocalPort != '' ">
                 AND c.frp_local_port like concat('%',#{frpLocalPort},'%')
             </if>
+			<if test="userId != null and userId != '' ">
+				AND c.user_id = #{userId} or #{userId} = 'admin'
+			</if>
 		</where>
 	</select>
 

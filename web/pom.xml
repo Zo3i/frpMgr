@@ -85,6 +85,12 @@
 			<artifactId>aliyun-java-sdk-core</artifactId>
 			<version>4.0.6</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>1.59</version>
+		</dependency>
 		<!--		ssh-->
 		<!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
 		<dependency>

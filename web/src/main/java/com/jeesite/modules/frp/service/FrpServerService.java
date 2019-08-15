@@ -72,5 +72,5 @@ public class FrpServerService extends CrudService<FrpServerDao, FrpServer> {
 	public void delete(FrpServer frpServer) {
 		super.delete(frpServer);
 	}
-	
+
 }

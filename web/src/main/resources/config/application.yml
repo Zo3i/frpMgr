@@ -28,7 +28,7 @@ shiro:
 #  username: root
 #  password: root
 
-
+#
 jdbc:
   # Mysql 数据库配置(Docker)
   type: mysql

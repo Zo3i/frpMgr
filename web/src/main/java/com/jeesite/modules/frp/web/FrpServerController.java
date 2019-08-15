@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonParser;
-import com.jeesite.modules.common.utils.JarFileUtil;
-import com.jeesite.modules.common.utils.ShellUtil;
-import com.jeesite.modules.common.utils.WebHttpUtils;
-import com.jeesite.modules.common.utils.ZipUtils;
+import com.jeesite.modules.common.utils.*;
 import com.jeesite.modules.frp.entity.Frp;
 import com.jeesite.modules.frp.entity.FrpConnect;
 import com.jeesite.modules.frp.entity.Shell;
@@ -131,9 +128,10 @@ public class FrpServerController extends BaseController {
 	@RequiresPermissions("frp:frpServer:edit")
 	@RequestMapping(value = "fastFrp/{id}/{passwd}")
 	@ResponseBody
-	public String fastFrp(@PathVariable("id") String id, @PathVariable("passwd") String passwd) {
+	public String fastFrp(@PathVariable("id") String id, @PathVariable("passwd") String passwd) throws Exception{
 		FrpServer frpServer = frpServerService.get(id);
 		if (frpServer != null) {
+			passwd = AesUtil.decryptAES(passwd);
 			Shell shell = new Shell(frpServer.getServerIp(), frpServer.getUserName(), passwd);
 			try {
 				shellUtil.execute(shell,"if [ ! -f \"fastFrp.sh\" ];then wget https://raw.githubusercontent.com/Zo3i/OCS/master/frp/fastFrp.sh; fi");
