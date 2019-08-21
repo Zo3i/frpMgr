@@ -50,7 +50,7 @@ getOsName()
 getOsName
 
 #down file
-git clone https://github.com/Zo3i/frpMgr.git
+git clone -b dev https://github.com/Zo3i/frpMgr.git
 #enter path
 cd ./frpMgr/web/src/main/docker/final
 chmod -R 755 ./*
