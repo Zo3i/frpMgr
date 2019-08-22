@@ -41,7 +41,7 @@
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
-		<div class="modal-content">
+		<div class="modal-content" style="width:850px;position: absolute;top:50%;left: 50%;transform: translate(-50%, -0%);">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 					&times;
@@ -51,7 +51,7 @@
 				</h4>
 			</div>
 			<div class="modal-body">
-				<p id="code"></p>
+				<div id="code"></div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -90,7 +90,15 @@ $('#dataGrid').dataGrid({
 	function downloadLinux(id) {
         console.log(id)
         // window.open("${ctx}/frp/frpSsh/exportLinux/" + id)
-		$('#code').text("wget -c " + "http://" + window.location.host + "${ctx}/frp/frpSsh/exportLinux/" + id + " -O client.zip")
+		var html = "<pre>"
+			html += "wget -c "
+			html += "http://" + window.location.host + "${ctx}/frp/frpSsh/exportLinux/" + id + " -O client.zip\r"
+			html += "unzip client.zip\r"
+			html += "cd ./client\r"
+			html += "chmod -R +x ./*\r"
+			html += "./frpc -c frpc.ini"
+			html += "</pre>"
+		$('#code').html(html)
 		$('#myModal').modal('show')
 	}
 </script>
