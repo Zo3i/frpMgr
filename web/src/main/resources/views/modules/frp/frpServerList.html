@@ -119,7 +119,7 @@ $('#dataGrid').dataGrid({
 		$('#myModal').modal('hide')
 		if (passwd!=null && passwd!="" && serverId!=null && serverId!="") {
 		    $.ajax({
-		        url: "${ctx}/frp/frpServer/fastFrp/" + serverId + "/" + passwd,
+		        url: "${ctx}/frp/frpServer/fastFrp/" + serverId + "?passwd=" + passwd,
 		        method : "post",
 		        contentType : "application/json",// 发送信息至服务器时内容编码类型:json格式
 		        datatype : "json",

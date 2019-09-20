@@ -126,11 +126,12 @@ public class FrpServerController extends BaseController {
 	 * 远程安装FRP
 	 */
 	@RequiresPermissions("frp:frpServer:edit")
-	@RequestMapping(value = "fastFrp/{id}/{passwd}")
+	@RequestMapping(value = "fastFrp/{id}")
 	@ResponseBody
-	public String fastFrp(@PathVariable("id") String id, @PathVariable("passwd") String passwd) throws Exception{
+	public String fastFrp(@PathVariable("id") String id, @RequestParam("passwd") String passwd) throws Exception{
 		FrpServer frpServer = frpServerService.get(id);
 		if (frpServer != null) {
+			passwd = passwd.replaceAll(" ", "+");
 			passwd = AesUtil.decryptAES(passwd);
 			Shell shell = new Shell(frpServer.getServerIp(), frpServer.getUserName(), passwd);
 			try {

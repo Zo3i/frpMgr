@@ -55,11 +55,8 @@ public class AesUtil {
 
 
     public static void main(String[] args) throws Exception {
-        String password = "4ALdChyeaLgOZz7i";
-        String str = "abcdefghi";
-
-        System.out.println(encryptAES("0000013305020974","123456"));
-        System.out.println(decryptAES("iwd2LkyUqRIFYRcfzGOesA=="));
+        System.out.println(encryptAES("frp9876543210000","123456"));
+        System.out.println(decryptAES("KD9op7L2GJiej+5uFCMs0w=="));
 
     }
 
