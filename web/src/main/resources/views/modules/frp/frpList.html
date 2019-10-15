@@ -56,6 +56,7 @@ $('#dataGrid').dataGrid({
 		{header:'${text('服务器')}', name:'serverName', index:'a.server_id', width:150, align:"center"},
 		{header:'${text('二级域名')}', name:'frpDomainSecond', index:'a.frp_domain_second', width:150, align:"center"},
 		{header:'${text('本地端口')}', name:'frpLocalPort', index:'a.frp_local_port', width:80, align:"center"},
+		{header:'${text('访问地址')}', name:'site', index:'a.frp_local_port', width:180, align:"center"},
 		{header:'${text('操作')}', name:'actions', width:120, sortable:false, title:false, align:"center", formatter: function(val, obj, row, act){
 			var actions = [];
 			<% if(hasPermi('frp:frp:edit')){ %>

@@ -84,6 +84,18 @@ public class FrpController extends BaseController {
 	public Page<Frp> listData(Frp frp, HttpServletRequest request, HttpServletResponse response) {
 		frp.setUserId(UserUtils.getUser().getId());
 		Page<Frp> page = frpService.findPage(new Page<Frp>(request, response), frp);
+		List<Frp> frpList = page.getList();
+		if (frpList.size() > 0) {
+			for (Frp s : frpList) {
+				String site = "http://";
+				FrpServer frpServer = frpServerService.get(String.valueOf(s.getServerId()));
+				site += s.getFrpDomainSecond() + ".";
+				site += frpServer.getSubdomainHost() + ":";
+				site += frpServer.getWebPort();
+				s.setSite(site);
+			}
+		}
+		page.setList(frpList);
 		return page;
 	}
 

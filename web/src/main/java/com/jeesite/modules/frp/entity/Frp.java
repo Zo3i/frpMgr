@@ -33,6 +33,7 @@ public class Frp extends DataEntity<Frp> {
 	private Long serverId;		// 服务器
 	private String serverName;
 	private String userId; // 当前用户
+	private String site;
 
 	
 	public Frp() {
@@ -92,5 +93,13 @@ public class Frp extends DataEntity<Frp> {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getSite() {
+		return site;
+	}
+
+	public void setSite(String site) {
+		this.site = site;
 	}
 }
