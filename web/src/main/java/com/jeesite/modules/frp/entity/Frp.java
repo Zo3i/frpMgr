@@ -34,6 +34,7 @@ public class Frp extends DataEntity<Frp> {
 	private String serverName;
 	private String userId; // 当前用户
 	private String site;
+	private String frpRemotePort;// 远程端口
 
 	
 	public Frp() {
@@ -101,5 +102,12 @@ public class Frp extends DataEntity<Frp> {
 
 	public void setSite(String site) {
 		this.site = site;
+	}
+	public String getFrpRemotePort() {
+		return frpRemotePort;
+	}
+
+	public void setFrpRemotePort(String frpRemotePort) {
+		this.frpRemotePort = frpRemotePort;
 	}
 }
