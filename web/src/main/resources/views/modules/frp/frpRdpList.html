@@ -77,7 +77,7 @@ $('#dataGrid').dataGrid({
 			<% if(hasPermi('frp:frp:edit')){ %>
 				actions.push('<a href="${ctx}/frp/frpRdp/edit?id='+row.id+'" class="btnList" title="${text('编辑frp')}"><i class="fa fa-pencil"></i></a>&nbsp;');
 				actions.push('<a href="${ctx}/frp/frpRdp/delete?id='+row.id+'" class="btnList" title="${text('删除frp')}" data-confirm="${text('确认要删除该frp吗？')}"><i class="fa fa-trash-o"></i></a>&nbsp;');
-                actions.push('<a style="cursor:pointer;" onclick="downloadLinux(\''+row.id+'\')">linux</a>&nbsp;')
+                actions.push('<a style="cursor:pointer;" onclick="downloadRdp(\''+row.id+'\')">远程桌面</a>&nbsp;')
 			<% } %>
 			return actions.join('');
 		}}
@@ -87,18 +87,8 @@ $('#dataGrid').dataGrid({
 
 	}
 });
-	function downloadLinux(id) {
-        console.log(id)
-        // window.open("${ctx}/frp/frpRdp/exportLinux/" + id)
-		var html = "<pre>"
-			html += "wget -c "
-			html += "http://" + window.location.host + "${ctx}/frp/frpRdp/exportLinux/" + id + " -O client.zip\r"
-			html += "unzip client.zip\r"
-			html += "cd ./client\r"
-			html += "chmod -R +x ./*\r"
-			html += "./frpc -c frpc.ini"
-			html += "</pre>"
-		$('#code').html(html)
-		$('#myModal').modal('show')
+
+	function downloadRdp(id) {
+		window.open("${ctx}/frp/frpRdp/exportRdp/" + id)
 	}
 </script>

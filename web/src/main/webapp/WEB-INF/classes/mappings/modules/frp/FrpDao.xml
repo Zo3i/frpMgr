@@ -6,13 +6,37 @@
 	<select id="findList" resultType="Frp">
 		SELECT ${sqlMap.column.toSql()}
 		FROM ${sqlMap.table.toSql()}
+		left  join frp_server s on ${sqlMap.table.toSql()}.server_id = s.id
 		<where>
 			${sqlMap.where.toSql()}
 		</where>
 		ORDER BY ${sqlMap.order.toSql()}
-	</select> -->
+	</select>-->
+
+	<select id="findList" resultType="Frp">
+		SELECT c.*, s.server_name
+		FROM frp c
+		left join frp_server s on c.server_id = s.id
+		left join js_sys_user u on c.user_id = u.user_code
+		<where>
+			<if test="projectName != null and projectName != '' ">
+                AND c.project_name like concat('%',#{projectName},'%')
+            </if>
+			<if test="frpDomainSecond != null and frpDomainSecond != '' ">
+                AND c.frp_domain_second like concat('%',#{frpDomainSecond},'%')
+            </if>
+            <if test="frpLocalPort != null and frpLocalPort != '' ">
+                AND c.frp_local_port like concat('%',#{frpLocalPort},'%')
+            </if>
+			<if test="userId != null and userId != '' ">
+				AND c.user_id = #{userId} or #{userId} = 'admin'
+			</if>
+		</where>
+	</select>
+
 	<select id="isExist" resultType="Frp">
 		select * from frp
-		where frp_domain_second = #{domain} or project_name = #{proName}
+		where (frp_domain_second = #{domain} or project_name = #{proName} or frp_remote_port = #{frpRemotePort})
+		and server_id = #{serverId} limit 1
 	</select>
 </mapper>

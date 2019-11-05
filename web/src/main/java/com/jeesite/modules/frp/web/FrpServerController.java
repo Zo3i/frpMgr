@@ -3,40 +3,27 @@
  */
 package com.jeesite.modules.frp.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.core.JsonParser;
-import com.jeesite.modules.common.utils.*;
-import com.jeesite.modules.frp.entity.Frp;
-import com.jeesite.modules.frp.entity.FrpConnect;
+import com.jeesite.common.config.Global;
+import com.jeesite.common.entity.Page;
+import com.jeesite.common.web.BaseController;
+import com.jeesite.modules.common.utils.AesUtil;
+import com.jeesite.modules.common.utils.ShellUtil;
+import com.jeesite.modules.frp.entity.FrpServer;
 import com.jeesite.modules.frp.entity.Shell;
-import com.sun.xml.bind.v2.TODO;
+import com.jeesite.modules.frp.service.FrpServerService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ResourceUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import com.jeesite.common.config.Global;
-import com.jeesite.common.entity.Page;
-import com.jeesite.common.web.BaseController;
-import com.jeesite.modules.frp.entity.FrpServer;
-import com.jeesite.modules.frp.service.FrpServerService;
-
-import java.io.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * frp_serverController

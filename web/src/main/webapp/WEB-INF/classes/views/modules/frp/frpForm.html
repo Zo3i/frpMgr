@@ -20,7 +20,7 @@
 							<label class="control-label col-sm-2" title="">
 								<span class="required hide">*</span> ${text('项目名称')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-5">
-								<#form:input path="projectName" maxlength="64" class="form-control"/>
+								<#form:input path="projectName" maxlength="64" class="form-control required"/>
 							</div>
 						</div>
 					</div>
@@ -31,7 +31,7 @@
 							<label class="control-label col-sm-2" title="">
 								<span class="required hide">*</span> ${text('二级域名')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-5">
-								<#form:input path="frpDomainSecond" maxlength="8" class="form-control"/>
+								<#form:input path="frpDomainSecond" maxlength="8" class="form-control required"/>
 							</div>
 						</div>
 					</div>
@@ -42,7 +42,16 @@
 							<label class="control-label col-sm-2" title="">
 								<span class="required hide">*</span> ${text('本地端口')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-5">
-								<#form:input path="frpLocalPort" maxlength="6" class="form-control"/>
+								<#form:input path="frpLocalPort" maxlength="6" class="form-control required"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label class="control-label col-sm-2" title="">
+								<span class="required ">*</span> ${text('服务器选择')}：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-5">
+								<#form:select path="serverId" items="${servers}" itemLabel="serverName" itemValue="id" class="form-control required" />
 							</div>
 						</div>
 					</div>
@@ -63,6 +72,7 @@
 </div>
 <% } %>
 <script>
+	//判断是否为新纪录
 	var isNewRecord = ${frp.isNewRecord}
 	if (isNewRecord) {
 		$('#inputForm').attr('action', '${ctx}/frp/save')

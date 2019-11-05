@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jeesite.modules.common.utils.JarFileUtil;
 import com.jeesite.modules.common.utils.ZipUtils;
 import com.jeesite.modules.frp.entity.FrpServer;
+import com.jeesite.modules.frp.enums.ClientType;
 import com.jeesite.modules.frp.service.FrpServerService;
 import com.jeesite.modules.sys.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -41,6 +42,7 @@ import java.io.*;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * frpController
@@ -95,6 +97,7 @@ public class FrpController extends BaseController {
 				s.setSite(site);
 			}
 		}
+		frpList = frpList.stream().filter(e -> e.getType() == ClientType.WEB.value).collect(Collectors.toList());
 		page.setList(frpList);
 		return page;
 	}
@@ -132,13 +135,15 @@ public class FrpController extends BaseController {
 	@PostMapping(value = "save")
 	@ResponseBody
 	public String save(@Validated Frp frp) {
+		// 类型
+		frp.setType(ClientType.WEB.value);
 		//判断是否存在项目名称一样的或存在二级域名一样的;
-		Frp isExist = frpService.isExist(frp.getProjectName(), frp.getFrpDomainSecond(), String.valueOf(frp.getServerId()));
+		Frp isExist = frpService.isExist(frp.getProjectName(), frp.getFrpDomainSecond(), String.valueOf(frp.getServerId()), frp.getFrpRemotePort());
 		if (isExist == null) {
 			frp.setUserId(UserUtils.getUser().getId());
 			frpService.save(frp);
 		} else {
-			return renderResult(Global.TRUE, text("项目名或二级域名冲突！"));
+			return renderResult(Global.TRUE, text("项目名、二级域名冲突或远程端口冲突！"));
 		}
 		return renderResult(Global.TRUE, text("保存frp成功！"));
 	}

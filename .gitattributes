@@ -1,0 +1,1 @@
+web/src/main/docker/final/frp/frp.jar filter=lfs diff=lfs merge=lfs -text

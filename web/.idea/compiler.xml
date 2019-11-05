@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="frp" />
         <module name="jeesite-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="frp" target="1.8" />
       <module name="jeesite-web" target="1.8" />
     </bytecodeTargetLevel>
   </component>

@@ -1,0 +1,129 @@
+<% layout('/layouts/default.html', {title: 'frp_server管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('frp连接管理')}
+				<input id="flashData" class="btn btn-primary " type="button" value="刷新">
+			</div>
+			<div class="box-tools pull-right">
+				<div style="width: 150px">
+					<#form:select path="map" items="${map}" id="action" itemLabel="key" itemValue="value" class="form-control" />
+				</div>
+			</div> &nbsp;&nbsp;
+			<div class="box-tools pull-right">
+				<div style="width: 150px">
+					<#form:select path="serverId" id="server" items="${servers}" itemLabel="serverName" itemValue="id" class="form-control" />
+				</div>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" action="${ctx}/frp/frpConnect/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('FRP面板密码')}：</label>
+					<div class="control-inline">
+						<#form:input path="userName" maxlength="128" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('域名')}：</label>
+					<div class="control-inline">
+						<#form:input path="subdomainHost" maxlength="16" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('服务器ip')}：</label>
+					<div class="control-inline">
+						<#form:input path="serverIp" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('服务器名称')}：</label>
+					<div class="control-inline">
+						<#form:input path="serverName" maxlength="255" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+
+<% } %>
+
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	columnModel: [
+		{header:'${text('项目名称')}', name:'name',  width:150, align:"center"},
+		{header:'${text('上行流量')}', name:'today_traffic_in',  width:150, align:"center",formatter: function(val, obj, row, act){
+				return ((val / 1000000).toFixed(2)) + "Mb"
+			}},
+		{header:'${text('下行流量')}', name:'today_traffic_out',  width:100, align:"center",formatter: function(val, obj, row, act){
+				return ((val / 1000000).toFixed(2)) + "Mb"
+			}},
+		{header:'${text('当前连接数')}', name:'cur_conns',width:80, align:"center"},
+		{header:'${text('最后连接时间')}', name:'last_start_time', width:80, align:"center", frozen:true},
+		{header:'${text('客户端状态')}', name:'status', width:80, align:"center", frozen:true,formatter: function(val, obj, row, act){
+				return val == "offline" ? '<span style="color: red">离线</span>' : '<span style="color: green">在线</span>'
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+
+
+function clearDataGrid(){
+	//获取当前页的记录数
+	var item = $('#dataGrid').dataGrid('getRows');
+	for (var i = item.length - 1; i >= 0; i--) {
+		var index = $('#dataGrid').dataGrid('getRowIndex', item[i]);
+		$('#dataGrid').dataGrid('deleteRow', index);
+	}
+}
+
+
+function update(serverId, action) {
+	$.ajax({
+		url: "${ctx}/frp/frpConnect/list/" + serverId + "/" + action,
+		method : "post",
+		contentType : "application/json",
+		datatype : "json",
+		success: function (e) {
+			if (e.length > 0) {
+				$('#dataGrid').dataGrid('clearGridData');
+				$("#dataGrid")[0].addJSONData(e);
+			} else {
+				$('#dataGrid').dataGrid('clearGridData');
+			}
+
+		},
+		error: function (e) {
+			$('#dataGrid').dataGrid('clearGridData');
+		}
+	})
+
+
+}
+
+$('#server').change(function () {
+	update($('#server').val(), $('#action').val())
+})
+
+$('#action').change(function () {
+	update($('#server').val(), $('#action').val())
+})
+
+$("#flashData").click(function () {
+	update($('#server').val(), $('#action').val())
+})
+
+</script>

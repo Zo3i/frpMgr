@@ -5,11 +5,34 @@ server:
     uri-encoding: UTF-8
 
 spring:
-  profiles: 
-    active: local
   main: 
     banner-mode: "off"
 
 shiro: 
   filterChainDefinitions: 
     ${adminPath}/third/** = anon
+
+#jdbc:
+#  # Mysql 数据库配置
+#  type: mysql
+#  driver: com.mysql.jdbc.Driver
+#  url: jdbc:mysql://rm-j6cm70w513grj0w24lo.mysql.rds.aliyuncs.com:3306/frp?useSSL=false
+#  username: root
+#  password: Abc12345
+
+jdbc:
+  # Mysql 数据库配置(远程)
+  type: mysql
+  driver: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/frp?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+  username: root
+  password: f118f79491dc6b493b0144ff61c921b5
+
+#jdbc:
+#  # Mysql 数据库配置(Docker)
+#  type: mysql
+#  driver: com.mysql.jdbc.Driver
+#  url: jdbc:mysql://mysql:3306/frp?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+#  username: docker
+#  password: 123456
+

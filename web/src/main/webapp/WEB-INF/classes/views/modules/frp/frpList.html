@@ -45,6 +45,7 @@
 </div>
 <% } %>
 <script>
+	console.log("jenkins")
 // 初始化DataGrid对象
 $('#dataGrid').dataGrid({
 	searchForm: $("#searchForm"),
@@ -52,15 +53,18 @@ $('#dataGrid').dataGrid({
 		{header:'${text('项目名称')}', name:'projectName', index:'a.project_name', width:150, align:"center", frozen:true, formatter: function(val, obj, row, act){
 			return '<a href="${ctx}/frp/form?id='+row.id+'" class="btnList" data-title="${text('编辑frp')}">'+(val||row.id)+'</a>';
 		}},
+		{header:'${text('服务器')}', name:'serverName', index:'a.server_id', width:150, align:"center"},
 		{header:'${text('二级域名')}', name:'frpDomainSecond', index:'a.frp_domain_second', width:150, align:"center"},
-		{header:'${text('本地端口')}', name:'frpLocalPort', index:'a.frp_local_port', width:150, align:"center"},
+		{header:'${text('本地端口')}', name:'frpLocalPort', index:'a.frp_local_port', width:80, align:"center"},
+		{header:'${text('访问地址')}', name:'site', index:'a.frp_local_port', width:180, align:"center"},
 		{header:'${text('操作')}', name:'actions', width:120, sortable:false, title:false, align:"center", formatter: function(val, obj, row, act){
 			var actions = [];
 			<% if(hasPermi('frp:frp:edit')){ %>
 				actions.push('<a href="${ctx}/frp/edit?id='+row.id+'" class="btnList" title="${text('编辑frp')}"><i class="fa fa-pencil"></i></a>&nbsp;');
-				actions.push('<a href="${ctx}/frp/delete?id='+row.id+'" class="btnList" title="${text('删除frp')}" data-confirm="${text('确认要删除该frp吗？')}"><i class="fa fa-trash-o"></i></button>&nbsp;');
-				actions.push('<a href="${ctx}/frp/exportWin/'+row.id+'" class="btnList" title="${text('下载win配置')}">win</i></a>&nbsp;');
-				actions.push('<a href="${ctx}/frp/exportMac/'+row.id+'" class="btnList" title="${text('下载mac配置')}">mac</i></a>&nbsp;');
+				actions.push('<a href="${ctx}/frp/delete?id='+row.id+'" class="btnList" title="${text('删除frp')}" data-confirm="${text('确认要删除该frp吗？')}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+				// actions.push('<a href="#" onclick="download('+ row.id +')" class="btnList" title="${text('下载win配置')}">win</i></a>&nbsp;');
+                actions.push('<a style="cursor:pointer;" onclick="downloadWin(\''+row.id+'\')">win</a>&nbsp;')
+                actions.push('<a style="cursor:pointer;" onclick="downloadMac(\''+row.id+'\')">mac</a>')
 			<% } %>
 			return actions.join('');
 		}}
@@ -70,4 +74,14 @@ $('#dataGrid').dataGrid({
 		
 	}
 });
+	function downloadWin(id) {
+        console.log(id)
+        window.open("${ctx}/frp/exportWin/" + id)
+	}
+
+    function downloadMac(id) {
+        console.log(id)
+        window.open("${ctx}/frp/exportMac/" + id)
+	}
+
 </script>

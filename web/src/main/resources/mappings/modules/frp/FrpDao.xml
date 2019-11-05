@@ -36,7 +36,7 @@
 
 	<select id="isExist" resultType="Frp">
 		select * from frp
-		where (frp_domain_second = #{domain} and server_id = #{serverId})
-		or (project_name = #{proName} and server_id = #{serverId}) limit 1
+		where (frp_domain_second = #{domain} or project_name = #{proName} or frp_remote_port = #{frpRemotePort})
+		and server_id = #{serverId} limit 1
 	</select>
 </mapper>

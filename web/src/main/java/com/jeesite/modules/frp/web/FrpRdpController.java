@@ -10,6 +10,7 @@ import com.jeesite.modules.common.utils.JarFileUtil;
 import com.jeesite.modules.common.utils.ZipUtils;
 import com.jeesite.modules.frp.entity.Frp;
 import com.jeesite.modules.frp.entity.FrpServer;
+import com.jeesite.modules.frp.enums.ClientType;
 import com.jeesite.modules.frp.service.FrpServerService;
 import com.jeesite.modules.frp.service.FrpService;
 import com.jeesite.modules.sys.utils.UserUtils;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * frpController
@@ -71,16 +73,7 @@ public class FrpRdpController extends BaseController {
 		frp.setUserId(UserUtils.getUser().getId());
 		Page<Frp> page = frpService.findPage(new Page<Frp>(request, response), frp);
 		List<Frp> frpList = page.getList();
-		if (frpList.size() > 0) {
-			for (Frp s : frpList) {
-				String site = "http://";
-				FrpServer frpServer = frpServerService.get(String.valueOf(s.getServerId()));
-				site += s.getFrpDomainSecond() + ".";
-				site += frpServer.getSubdomainHost() + ":";
-				site += frpServer.getWebPort();
-				s.setSite(site);
-			}
-		}
+		frpList = frpList.stream().filter(e -> e.getType() == ClientType.RDP.value).collect(Collectors.toList());
 		page.setList(frpList);
 		return page;
 	}
@@ -118,13 +111,15 @@ public class FrpRdpController extends BaseController {
 	@PostMapping(value = "save")
 	@ResponseBody
 	public String save(@Validated Frp frp) {
-		//判断是否存在项目名称一样的或存在二级域名一样的;
-		Frp isExist = frpService.isExist(frp.getProjectName(), frp.getFrpDomainSecond(), String.valueOf(frp.getServerId()));
+		// 类型
+		frp.setType(ClientType.RDP.value);
+		//判断是否存在项目名称,二级域名,远程端口一样的;
+		Frp isExist = frpService.isExist(frp.getProjectName(), frp.getFrpDomainSecond(), String.valueOf(frp.getServerId()), frp.getFrpRemotePort());
 		if (isExist == null) {
 			frp.setUserId(UserUtils.getUser().getId());
 			frpService.save(frp);
 		} else {
-			return renderResult(Global.TRUE, text("项目名或二级域名冲突！"));
+			return renderResult(Global.TRUE, text("项目名、二级域名冲突或远程端口冲突！"));
 		}
 		return renderResult(Global.TRUE, text("保存frp成功！"));
 	}
@@ -151,66 +146,63 @@ public class FrpRdpController extends BaseController {
 		return renderResult(Global.TRUE, text("删除frp成功！"));
 	}
 
-	@RequestMapping("/exportWin/{id}")
-    @ResponseBody
-    public void exportWin(@PathVariable String id, HttpServletResponse response) throws IOException {
-        Frp frp = frpService.get(id);
-        FrpServer frpServer = frpServerService.get(String.valueOf(frp.getServerId()));
+	@RequestMapping("/exportRdp/{id}")
+	@ResponseBody
+	public void exportWin(@PathVariable String id, HttpServletResponse response) throws IOException {
+		Frp frp = frpService.get(id);
+		FrpServer frpServer = frpServerService.get(String.valueOf(frp.getServerId()));
 
-        //创建临时文件夹
+		//创建临时文件夹
 		String zipName = UUID.randomUUID().toString();
 		String dir = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator;
 		String dir_client = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator + "client";
 		File srcDir = new File(dir_client);
 		log.info("临时文件夹准备");
 		//拷贝到临时文件夹
-		JarFileUtil.BatCopyFileFromJar("static/frp/frp-client", dir_client);
+		JarFileUtil.BatCopyFileFromJar("static/frp/frp-client-rdp", dir_client);
 		log.info("拷贝到临时文件夹");
-        //读取frpc.ini
-        File temp_file = new File(dir_client + File.separator +"frpc.ini");
-        StringBuffer res = new StringBuffer();
-        String line = null;
+		//读取frpc.ini
+		File temp_file = new File(dir_client + File.separator +"frpc.ini");
+		StringBuffer res = new StringBuffer();
+		String line = null;
 		BufferedReader reader = new BufferedReader(new FileReader(temp_file));
-        while ((line = reader.readLine()) != null) {
-		    res.append(line + "\n");
+		while ((line = reader.readLine()) != null) {
+			res.append(line + "\n");
 		}
-        reader.close();
-        log.info("读取文件");
-        BufferedWriter writer = new BufferedWriter(new FileWriter(temp_file));
-        String temp_string = res.toString();
-        //替换模板
-        String projectName = frp.getProjectName();
-        String subdomain = frp.getFrpDomainSecond();
-        String localport = frp.getFrpLocalPort();
-        temp_string = temp_string.replaceAll("project_name", projectName);
-        temp_string = temp_string.replaceAll("frp_subdomain", subdomain);
-        temp_string = temp_string.replaceAll("frp_local_port", localport);
-        temp_string = temp_string.replaceAll("frp_server_addr", frpServer.getServerIp());
-        writer.write(temp_string);
+		reader.close();
+		log.info("读取文件");
+		BufferedWriter writer = new BufferedWriter(new FileWriter(temp_file));
+		String temp_string = res.toString();
+		//替换模板
+		String projectName = frp.getProjectName();
+		String remotePort = frp.getFrpRemotePort();
+		temp_string = temp_string.replaceAll("project_name", projectName);
+		temp_string = temp_string.replaceAll("frp_remote_port", remotePort);
+		temp_string = temp_string.replaceAll("frp_server_addr", frpServer.getServerIp());
+		writer.write(temp_string);
 		writer.flush();
 		writer.close();
-        log.info("替换模板");
+		log.info("替换模板");
 
-        String zipFilePath = System.getProperty("java.io.tmpdir") + File.separator + zipName + "zip";
-        ZipUtils.zip(dir, zipFilePath);
-        File zipFile = new File(zipFilePath);
-           // 以流的形式下载文件。
-           BufferedInputStream fis = new BufferedInputStream(new FileInputStream(zipFile.getPath()));
-           byte[] buffer = new byte[fis.available()];
-           fis.read(buffer);
-           fis.close();
-           response.reset();
-           OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-           response.setContentType("application/octet-stream");
-           response.setHeader("Content-Disposition", "attachment;filename=" + "client.zip");
+		String zipFilePath = System.getProperty("java.io.tmpdir") + File.separator + zipName + "zip";
+		ZipUtils.zip(dir, zipFilePath);
+		File zipFile = new File(zipFilePath);
+		// 以流的形式下载文件。
+		BufferedInputStream fis = new BufferedInputStream(new FileInputStream(zipFile.getPath()));
+		byte[] buffer = new byte[fis.available()];
+		fis.read(buffer);
+		fis.close();
+		response.reset();
+		OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Disposition", "attachment;filename=" + "client.zip");
 
-
-           toClient.write(buffer);
-           toClient.flush();
-           toClient.close();
-           FileUtils.deleteDirectory(srcDir);
-           zipFile.delete();
-        log.info("succeed");
-    }
+		toClient.write(buffer);
+		toClient.flush();
+		toClient.close();
+		FileUtils.deleteDirectory(srcDir);
+		zipFile.delete();
+		log.info("succeed");
+	}
 
 }

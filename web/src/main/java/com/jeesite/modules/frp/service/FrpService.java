@@ -78,8 +78,8 @@ public class FrpService extends CrudService<FrpDao, Frp> {
 	}
 
 	@Transactional(readOnly=false)
-	public Frp isExist(String proName, String domain, String serverId) {
-		return frpDao.isExist(proName, domain, serverId);
+	public Frp isExist(String proName, String domain, String serverId, String frpRemotePort) {
+		return frpDao.isExist(proName, domain, serverId, frpRemotePort);
 	};
 	
 }
