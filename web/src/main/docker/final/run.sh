@@ -36,10 +36,12 @@ getOsName()
           echo 'no exists'
           apt-get install -y git
         fi
+
         if command -v git-lfs >/dev/null 2>&1; then
            echo 'exists'
            else
              echo 'no exists'
+             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
              apt-get install -y git-lfs
         fi
     elif grep -Eqi "Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
@@ -51,10 +53,12 @@ getOsName()
             echo 'no exists'
             apt-get install -y git
         fi
+
         if command -v git-lfs >/dev/null 2>&1; then
            echo 'exists'
            else
              echo 'no exists'
+             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
              apt-get install -y git-lfs
         fi
     elif grep -Eqi "Raspbian" /etc/issue || grep -Eq "Raspbian" /etc/*-release; then
