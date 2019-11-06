@@ -23,6 +23,8 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 		@Column(name="frp_remote_port", attrName="frpRemotePort", label="远程端口"),
 		@Column(name="server_id", attrName="serverId", label="服务器"),
 		@Column(name="user_id", attrName="userId", label="所属用户"),
+		@Column(name="user", attrName="user", label="登录用户名"),
+		@Column(name="password", attrName="password", label="登录密码"),
 		@Column(name="type", attrName="type", label="类型"),
 	}, orderBy="a.id DESC"
 )
@@ -38,6 +40,8 @@ public class Frp extends DataEntity<Frp> {
 	private String site;
 	private String frpRemotePort;// 远程端口
 	private Integer type;
+	private String user;
+	private String password;
 
 	
 	public Frp() {
@@ -120,5 +124,21 @@ public class Frp extends DataEntity<Frp> {
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

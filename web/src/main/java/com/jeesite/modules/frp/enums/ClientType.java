@@ -4,7 +4,9 @@ public enum ClientType {
 
     WEB(1, "web穿透"),
     SSH(2, "ssh登录"),
-    RDP(3, "远程登录");
+    RDP(3, "远程登录"),
+    FILE(4, "目录文件");
+
 
     public final Integer value;
     public final String desc;
