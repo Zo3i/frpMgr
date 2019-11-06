@@ -1,0 +1,97 @@
+<% layout('/layouts/default.html', {title: 'frp管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('frp管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('frp:frp:edit')){ %>
+					<a href="${ctx}/frp/frpFile/form" class="btn btn-default btnTool" title="${text('新增frp')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${frp}" action="${ctx}/frp/frpFile/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('项目名称')}：</label>
+					<div class="control-inline">
+						<#form:input path="projectName" maxlength="64" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('远程端口')}：</label>
+					<div class="control-inline">
+						<#form:input path="frpRemotePort" maxlength="6" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content" style="width:850px;position: absolute;top:50%;left: 50%;transform: translate(-50%, -0%);">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					复制粘贴到客户端运行
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div id="code"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+<% } %>
+<script>
+	console.log("jenkins")
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text('项目名称')}', name:'projectName', index:'a.project_name', width:150, align:"center", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/frp/frpFile/form?id='+row.id+'" class="btnList" data-title="${text('编辑frp')}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text('服务器')}', name:'serverName', index:'a.server_id', width:150, align:"center"},
+		{header:'${text('用户名')}', name:'user', index:'a.user', width:150, align:"center"},
+		{header:'${text('密码')}', name:'password', index:'a.password', width:150, align:"center"},
+		{header:'${text('远程端口')}', name:'frpRemotePort', index:'a.frp_remote_port', width:80, align:"center"},
+		{header:'${text('访问地址')}', name:'site', index:'a.frp_local_port', width:180, align:"center"},
+		{header:'${text('操作')}', name:'actions', width:120, sortable:false, title:false, align:"center", formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('frp:frp:edit')){ %>
+				actions.push('<a href="${ctx}/frp/frpFile/edit?id='+row.id+'" class="btnList" title="${text('编辑frp')}"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/frp/frpFile/delete?id='+row.id+'" class="btnList" title="${text('删除frp')}" data-confirm="${text('确认要删除该frp吗？')}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                actions.push('<a style="cursor:pointer;" onclick="downloadFile(\''+row.id+'\')">目录文件</a>&nbsp;')
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+
+	}
+});
+
+	function downloadFile(id) {
+		window.open("${ctx}/frp/frpFile/exportFile/" + id)
+	}
+</script>
