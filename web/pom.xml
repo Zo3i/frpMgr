@@ -163,8 +163,47 @@
 					<jeeversion>6.0</jeeversion>
 				</configuration>
 			</plugin>
+<!--第一次打包-->
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					<mainClass>com.jeesite.modules.config.Application</mainClass>-->
+<!--					<layout>ZIP</layout>-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>repackage</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 
-			<!-- Docker maven plugin -->
+<!--			&lt;!&ndash;第二次打包&ndash;&gt;-->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.jeesite.modules.config.Application</mainClass>
+					<layout>ZIP</layout>
+					<includes>
+						<include>
+							<groupId>nothing</groupId>
+							<artifactId>nothing</artifactId>
+						</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+            <!-- Docker maven plugin -->
 <!--			<plugin>-->
 <!--				<groupId>com.spotify</groupId>-->
 <!--				<artifactId>docker-maven-plugin</artifactId>-->

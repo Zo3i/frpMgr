@@ -23,4 +23,4 @@ services:
       - mysql
     links:
       - mysql
-    entrypoint: "./w.sh mysql:3306 -- java -jar /app.jar"
+    entrypoint: "./w.sh mysql:3306 -- java -Dloader.path=lib -jar /app.jar"

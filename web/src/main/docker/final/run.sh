@@ -12,12 +12,6 @@ getOsName()
               echo 'no exists git'
               yum install -y git
         fi
-        if command -v git-lfs >/dev/null 2>&1; then
-           echo 'exists'
-           else
-             echo 'no exists'
-             yum install -y git-lfs
-        fi
     elif grep -Eqi "Red Hat Enterprise Linux Server" /etc/issue || grep -Eq "Red Hat Enterprise Linux Server" /etc/*-release; then
         DISTRO='RHEL'
         PM='yum'
@@ -36,14 +30,6 @@ getOsName()
           echo 'no exists'
           apt-get install -y git
         fi
-
-        if command -v git-lfs >/dev/null 2>&1; then
-           echo 'exists'
-           else
-             echo 'no exists'
-             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-             apt-get install -y git-lfs
-        fi
     elif grep -Eqi "Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
         DISTRO='Ubuntu'
         PM='apt'
@@ -52,14 +38,6 @@ getOsName()
         else
             echo 'no exists'
             apt-get install -y git
-        fi
-
-        if command -v git-lfs >/dev/null 2>&1; then
-           echo 'exists'
-           else
-             echo 'no exists'
-             curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-             apt-get install -y git-lfs
         fi
     elif grep -Eqi "Raspbian" /etc/issue || grep -Eq "Raspbian" /etc/*-release; then
         DISTRO='Raspbian'
@@ -72,7 +50,7 @@ getOsName()
 getOsName
 
 #down file
-git lfs clone https://github.com/Zo3i/frpMgr.git
+git clone https://github.com/Zo3i/frpMgr.git
 #enter path
 cd ./frpMgr/web/src/main/docker/final
 chmod -R 755 ./*
