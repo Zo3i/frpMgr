@@ -37,7 +37,7 @@ just run the code above on your server;
 - Configuration the server.
 ![](https://zxx.one/imgs/2019/11/b9e77a605f309b16.png)
 ---
-![1573032606908](C:\Users\Jo\AppData\Roaming\Typora\typora-user-images\1573032606908.png)
+![](https://zxx.one/imgs/2019/11/537de54b7346c10b.png)
 - input your remote  server's password and wait minutes .(**don't worry about your password disclosure. it just varify your server**)
 
 - after you install and run the frp server. you can check out or restart the server 
