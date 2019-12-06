@@ -1,14 +1,26 @@
 [README](README.md) | [中文文档](README_zh.md)
 
-------
+---
+
+# FRP快捷配置面板
 
 ### 功能介绍:
 
-- 一键配置生成客户端的 frp 配置文件;
-- 配置好服务器信息之后可远程安装frp服务到任意一台服务器;
+- 一键远程安装FRP服务端。
+- 可视化配置FRP客户端（支持WEB穿透，RDP远程桌面， 本地目录分享， SSH穿透）
 - 查看服务器客户端连接情况。
 
 **DEMO(可能失效): [http://47.88.169.121:8999/frp](http://47.88.169.121:8999/frp)**
+
+### 更新日志
+
+- 2019/11/6 新增本地目录分享功能
+- 2019/11/4 新增远程桌面功能
+- 2019/10/30 新增SSH穿透功能
+- 2019/6/27 新增查看客户端连接
+- 2019/6/13 新增Frp服务端一键安装
+- 2019/2/27 支持Docker一键安装
+- 2019/2/15 新增WEB穿透功能
 
 ### 部署教程
 
@@ -22,7 +34,7 @@ wget -O - https://raw.githubusercontent.com/Zo3i/frpMgr/master/web/src/main/dock
 - 访问:你的服务器 ip:8999/frp 账号 **admin** 密码 **12345678**
 - 查看日志命令：1. docker ps 2. docker logs -f --tail 10 java项目的容器ID
 
-如果需要修改代码,请自行编译 jar 脚本替换成品中的 jar 脚本重新部署即可...
+> 如果需要修改代码,请自行编译 jar包重新部署即可...
 
 ### 使用说明:
 
@@ -51,3 +63,4 @@ wget -O - https://raw.githubusercontent.com/Zo3i/frpMgr/master/web/src/main/dock
 ------
 
 - 等待FRP服务安装完成之后，配置客户端配置，即可使用了。
+
