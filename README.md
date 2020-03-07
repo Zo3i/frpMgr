@@ -44,7 +44,7 @@ just run the code above on your server;
 
   ```shell
   service frps status
-  service fprs stop
+  service frps stop
   service frps restart
   ```
 
