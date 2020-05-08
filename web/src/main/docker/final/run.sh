@@ -57,5 +57,6 @@ chmod -R 755 ./*
 cd ./mysql
 docker build -t jo/mysql .
 cd ..
+docker-compose down
 docker-compose build
 docker-compose up -d
