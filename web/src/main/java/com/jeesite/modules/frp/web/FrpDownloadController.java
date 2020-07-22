@@ -54,32 +54,30 @@ public class FrpDownloadController extends BaseController {
 				replace = true;
 				copyPath += "frpc_web.ini";
 				filePath += "frpc_web.ini";
-				JarFileUtil.getCopyFileFromJar(filePath, copyPath);
 				break;
 			case 2:
 				replace = true;
 				copyPath = filePath + "frpc_file_copy.ini";
 				filePath += "frpc_file.ini";
-				JarFileUtil.getCopyFileFromJar(filePath, copyPath);
 				break;
 			case 3:
 				replace = true;
 				copyPath = filePath + "frpc_rpc_copy.ini";
 				filePath += "frpc_rpc.ini";
-				JarFileUtil.getCopyFileFromJar(filePath, copyPath);
 				break;
 			case 4:
-				copyPath = filePath + "frpc.exe";
-				filePath = "frpc.exe";
+				copyPath += filePath + "frpc.exe";
+				filePath += "frpc.exe";
 				break;
 			case 5:
-				copyPath = filePath + "frpc_full.ini";
-				filePath = "frpc_full.ini";
+				copyPath += filePath + "frpc_full.ini";
+				filePath += "frpc_full.ini";
 				break;
 			default:
 				break;
 		}
 
+		JarFileUtil.getCopyFileFromJar(filePath, copyPath);
 		temp_file = new File(copyPath);
 
 		if (replace) {
@@ -131,6 +129,7 @@ public class FrpDownloadController extends BaseController {
 		String url = "";
 		url = request.getScheme() +"://" + request.getServerName()
 				+ ":" +request.getServerPort()
+				+ "/frp"
 				+ request.getServletPath();
 		url = url.replaceAll("batDown", "file");
 
@@ -151,7 +150,7 @@ public class FrpDownloadController extends BaseController {
 		String line = null;
 		BufferedReader reader = new BufferedReader(new FileReader(temp_file));
 		while ((line = reader.readLine()) != null) {
-			res.append(line + "\n");
+			res.append(line + "\r\n");
 		}
 		reader.close();
 		BufferedWriter writer = new BufferedWriter(new FileWriter(temp_file));

@@ -25,7 +25,8 @@ public class JarFileUtil {
                     String tempNewPath = newpath + "\\" + paths[paths.length - 1];
                     BatCopyFileFromJar(libPath, tempNewPath);
                 } else {
-                    org.apache.commons.io.FileUtils.copyInputStreamToFile(resource.getInputStream(), new File(newpath + File.separator + resource.getFilename()));
+                    org.apache.commons.io.FileUtils.copyInputStreamToFile(resource.getInputStream(),
+                            new File(newpath + File.separator + resource.getFilename()));
                 }
             }
         } catch (Exception e) {
