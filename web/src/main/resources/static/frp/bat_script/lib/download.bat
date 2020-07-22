@@ -19,9 +19,9 @@ if exist .\client\frpc.log del .\client\frpc.log
 ::echo 下载Host: %1
 set host=%1
 set useFor=%2
-set downloadWEBUrl=http://%host%/frpc.ini
-set downloadFILEUrl=http://%host%/frpc1.ini
-set downloadRDPUrl=http://%host%/frpc2.ini
+set downloadWEBUrl=%host%/WEB
+set downloadFILEUrl=%host%/FILE
+set downloadRDPUrl=%host%/RDP
 set fileName=frpc.ini
 
 if %useFor%==1 (
@@ -47,11 +47,11 @@ if %useFor%==1 (
 )
 
 :: 下载
-set downloadFrpConfigUrl=http://%host%/frpc_full.ini
+set downloadFrpConfigUrl=%host%/FULL_INI
 set frpFullName=frpc_full.ini
 call :downloadFunc %downloadFrpConfigUrl% %frpFullName%
 
-set downloadExeUrl=http://%host%/frpc.exe
+set downloadExeUrl=%host%/EXE
 set frpExeName=frpc.exe
 call :downloadFunc %downloadExeUrl% %frpExeName%
 goto:EXIT

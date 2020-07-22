@@ -16,7 +16,7 @@ set useFor=
 set /p useFor=  用途(1、WEB穿透2、文件目录3、远程桌面)：
 
 ::下载
-call .\lib\download.bat 34.80.211.24 %useFor%
+call .\lib\download.bat FIX_DOWNLOAD_URL %useFor%
 
 echo.
 echo =====配置文件=====

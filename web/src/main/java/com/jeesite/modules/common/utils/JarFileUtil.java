@@ -1,6 +1,8 @@
 package com.jeesite.modules.common.utils;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -14,8 +16,17 @@ public class JarFileUtil {
             //获取所有匹配的文件
             Resource[] resources = resolver.getResources(path+"/*");
             for(int i=0;i<resources.length;i++) {
-                Resource resource=resources[i];
-                org.apache.commons.io.FileUtils.copyInputStreamToFile(resource.getInputStream(), new File(newpath + File.separator + resource.getFilename()));
+                Resource resource = resources[i];
+                File file = resource.getFile();
+                if (file.isDirectory()) {
+                    String filePath = file.getPath();
+                    String[] paths = filePath.split("\\\\");
+                    String libPath = path + "\\" + paths[paths.length - 1];
+                    String tempNewPath = newpath + "\\" + paths[paths.length - 1];
+                    BatCopyFileFromJar(libPath, tempNewPath);
+                } else {
+                    org.apache.commons.io.FileUtils.copyInputStreamToFile(resource.getInputStream(), new File(newpath + File.separator + resource.getFilename()));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -23,10 +34,10 @@ public class JarFileUtil {
     }
 
     public static void getCopyFileFromJar(String path, String newpath) {
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        Resource resource = resolver.getResource(path);
+        ClassPathResource classPathResource = new ClassPathResource(path);
         try {
-            FileUtils.copyInputStreamToFile(resource.getInputStream(), new File(newpath));
+            InputStream inputStream = classPathResource.getInputStream();
+            FileUtils.copyInputStreamToFile(inputStream, new File(newpath));
         } catch (IOException e) {
             e.printStackTrace();
         }

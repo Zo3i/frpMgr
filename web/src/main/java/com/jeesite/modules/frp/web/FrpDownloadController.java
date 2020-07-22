@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Arrays;
@@ -38,15 +40,19 @@ public class FrpDownloadController extends BaseController {
 	                       HttpServletResponse response) throws IOException {
 
 		FrpServer server = frpServerService.get(id);
+
+		//创建临时文件夹
+		String zipName = UUID.randomUUID().toString();
+		String copyPath = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator;
+		File srcDir = new File(copyPath);
 		//读取frpc.ini
 		File temp_file = null;
 		String filePath = "static/frp/bat/";
-		String copyPath = "";
 		boolean replace = false;
 		switch (type.value) {
 			case 1:
 				replace = true;
-				copyPath = filePath + "frpc_web_copy.ini";
+				copyPath += "frpc_web.ini";
 				filePath += "frpc_web.ini";
 				JarFileUtil.getCopyFileFromJar(filePath, copyPath);
 				break;
@@ -110,7 +116,71 @@ public class FrpDownloadController extends BaseController {
 		toClient.write(buffer);
 		toClient.flush();
 		toClient.close();
-		FileUtils.forceDelete(temp_file);
+		FileUtils.deleteDirectory(srcDir);
+		log.info("succeed");
+	}
+
+
+	@RequestMapping("/batDown/{id}")
+	@ResponseBody
+	public void bat(@PathVariable String id,
+	                HttpServletRequest request,
+	                HttpServletResponse response) throws IOException {
+
+
+		String url = "";
+		url = request.getScheme() +"://" + request.getServerName()
+				+ ":" +request.getServerPort()
+				+ request.getServletPath();
+		url = url.replaceAll("batDown", "file");
+
+		log.info(url);
+
+		// 源文件目录
+		String zipName = UUID.randomUUID().toString();
+		String dir = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator;
+		String dir_client = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator + "bat_script";
+		File srcDir = new File(dir_client);
+
+		//拷贝到临时文件夹
+		JarFileUtil.BatCopyFileFromJar("static/frp/bat_script", dir_client);
+
+		//读取
+		File temp_file = new File(dir_client + File.separator +"main.bat");
+		StringBuffer res = new StringBuffer();
+		String line = null;
+		BufferedReader reader = new BufferedReader(new FileReader(temp_file));
+		while ((line = reader.readLine()) != null) {
+			res.append(line + "\n");
+		}
+		reader.close();
+		BufferedWriter writer = new BufferedWriter(new FileWriter(temp_file));
+		String temp_string = res.toString();
+		temp_string = temp_string.replaceAll("FIX_DOWNLOAD_URL", url);
+		//替换模板
+		writer.write(temp_string);
+		writer.flush();
+		writer.close();
+
+		String zipFilePath = System.getProperty("java.io.tmpdir") + File.separator + zipName + "zip";
+		ZipUtils.zip(dir, zipFilePath);
+		File zipFile = new File(zipFilePath);
+		log.info("succeed");
+		// 以流的形式下载文件。
+		BufferedInputStream fis = new BufferedInputStream(new FileInputStream(zipFile.getPath()));
+		byte[] buffer = new byte[fis.available()];
+		fis.read(buffer);
+		fis.close();
+		response.reset();
+		OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+		response.setContentType("application/octet-stream");
+		response.setHeader("content-disposition", "attachment;filename=" + "client.zip");
+
+		toClient.write(buffer);
+		toClient.flush();
+		toClient.close();
+		FileUtils.deleteDirectory(srcDir);
+		zipFile.delete();
 		log.info("succeed");
 	}
 }
