@@ -1,5 +1,6 @@
 package com.jeesite.modules.common.utils;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -19,6 +20,17 @@ public class JarFileUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void getCopyFileFromJar(String path, String newpath) {
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Resource resource = resolver.getResource(path);
+        try {
+            FileUtils.copyInputStreamToFile(resource.getInputStream(), new File(newpath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
        public static void write2File(InputStream is, String filePath) throws IOException {
