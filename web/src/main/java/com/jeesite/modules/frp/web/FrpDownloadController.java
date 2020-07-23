@@ -141,10 +141,13 @@ public class FrpDownloadController extends BaseController {
 		String dir_client = System.getProperty("java.io.tmpdir") + File.separator + zipName + File.separator + "bat_script";
 		File srcDir = new File(dir_client);
 
-		//拷贝到临时文件夹
+		// 拷贝到临时文件夹
+		// 下载main
 		JarFileUtil.BatCopyFileFromJar("static/frp/bat_script", dir_client);
+		// 下载lib
+		JarFileUtil.BatCopyFileFromJar("static/frp/bat_script/lib", dir_client + File.separator + "lib");
 
-		//读取
+		// 读取
 		File temp_file = new File(dir_client + File.separator +"main.bat");
 		StringBuffer res = new StringBuffer();
 		String line = null;

@@ -17,16 +17,10 @@ public class JarFileUtil {
             Resource[] resources = resolver.getResources(path+"/*");
             for(int i=0;i<resources.length;i++) {
                 Resource resource = resources[i];
-                File file = resource.getFile();
-                if (file.isDirectory()) {
-                    String filePath = file.getPath();
-                    String[] paths = filePath.split("\\\\");
-                    String libPath = path + "\\" + paths[paths.length - 1];
-                    String tempNewPath = newpath + "\\" + paths[paths.length - 1];
-                    BatCopyFileFromJar(libPath, tempNewPath);
-                } else {
-                    org.apache.commons.io.FileUtils.copyInputStreamToFile(resource.getInputStream(),
-                            new File(newpath + File.separator + resource.getFilename()));
+                try {
+                    org.apache.commons.io.FileUtils.copyInputStreamToFile(resource.getInputStream(), new File(newpath + File.separator + resource.getFilename()));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
         } catch (Exception e) {
