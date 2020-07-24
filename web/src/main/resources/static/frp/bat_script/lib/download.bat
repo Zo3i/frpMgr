@@ -51,9 +51,10 @@ set downloadFrpConfigUrl=%host%/FULL_INI
 set frpFullName=frpc_full.ini
 call :downloadFunc %downloadFrpConfigUrl% %frpFullName%
 
+set downloadExeUrl=%host%/EXE
+set frpExeName=frpc.exe
+
 if not exist .\client\frpc.exe (
-  set downloadExeUrl=%host%/EXE
-  set frpExeName=frpc.exe
   call :downloadFunc %downloadExeUrl% %frpExeName%
 )
 
