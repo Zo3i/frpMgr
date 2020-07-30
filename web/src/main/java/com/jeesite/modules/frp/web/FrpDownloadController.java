@@ -126,6 +126,7 @@ public class FrpDownloadController extends BaseController {
 	                HttpServletResponse response) throws IOException {
 
 
+		FrpServer server = frpServerService.get(id);
 		String url = "";
 		url = request.getScheme() +"://" + request.getServerName()
 				+ ":" +request.getServerPort()
@@ -157,8 +158,10 @@ public class FrpDownloadController extends BaseController {
 		}
 		reader.close();
 		BufferedWriter writer = new BufferedWriter(new FileWriter(temp_file));
+		String serverDomain = server.getSubdomainHost();
 		String temp_string = res.toString();
 		temp_string = temp_string.replaceAll("FIX_DOWNLOAD_URL", url);
+		temp_string = temp_string.replaceAll("FIX_SERVER_DOMAIN", serverDomain);
 		//替换模板
 		writer.write(temp_string);
 		writer.flush();
