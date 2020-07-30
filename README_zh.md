@@ -12,7 +12,7 @@
 
 **DEMO(可能失效): [ http://47.102.210.142:8999/frp ]( http://47.102.210.142:8999/frp )**
 
-感谢**[snuglove]( https://github.com/snuglove )** 提供的demo，服务器有效期最大到2020-11-30 
+感谢[snuglove]( https://github.com/snuglove )提供的demo，服务器有效期最大到2020-11-30 
 
 ### 更新日志
 
