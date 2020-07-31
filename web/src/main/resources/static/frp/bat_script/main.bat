@@ -54,7 +54,7 @@ else if %useFor%==2 (
   call :modifyFuc !FIX_FILE_PORT! !FIX_FILE_PORT_REPLACE!
 
   echo "把文件放入file文件夹即可分享文件"
-  echo "公网访问: FIX_SERVER_DOMAIN:!FIX_FILE_PORT_REPLACE!/file/"
+  echo "公网访问: FIX_SERVER_IP:!FIX_FILE_PORT_REPLACE!/file/"
 ) ^
 else (
   ::远程桌面
@@ -68,7 +68,7 @@ else (
   set /p FIX_RDP_PORT_REPLACE=  "请输入远程端口(100~60000)："
   call :modifyFuc !FIX_RDP_PORT! !FIX_RDP_PORT_REPLACE!
 
-  echo "访问：FIX_SERVER_DOMAIN:!FIX_RDP_PORT_REPLACE!"
+  echo "访问：FIX_SERVER_IP:!FIX_RDP_PORT_REPLACE!"
 )
 
 

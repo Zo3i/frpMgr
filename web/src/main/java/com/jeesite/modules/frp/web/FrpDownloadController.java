@@ -160,8 +160,10 @@ public class FrpDownloadController extends BaseController {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(temp_file));
 		String serverDomain = server.getSubdomainHost();
 		String temp_string = res.toString();
+		String ip = server.getServerIp();
 		temp_string = temp_string.replaceAll("FIX_DOWNLOAD_URL", url);
 		temp_string = temp_string.replaceAll("FIX_SERVER_DOMAIN", serverDomain);
+		temp_string = temp_string.replaceAll("FIX_SERVER_IP", ip);
 		//替换模板
 		writer.write(temp_string);
 		writer.flush();
