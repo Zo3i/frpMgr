@@ -47,6 +47,7 @@ if %useFor%==1 (
 )
 
 :: 下载
+echo 下载Full.ini配置...
 set downloadFrpConfigUrl=%host%/FULL_INI
 set frpFullName=frpc_full.ini
 call :downFunc %downloadFrpConfigUrl% %frpFullName%
@@ -54,6 +55,7 @@ call :downFunc %downloadFrpConfigUrl% %frpFullName%
 set downloadExeUrl=%host%/EXE
 set frpExeName=frpc.exe
 if not exist .\client\frpc.exe (
+  echo 下载Frp主程序请勿关闭窗口...
   call :downFunc %downloadExeUrl% %frpExeName%
 )
 
@@ -65,4 +67,4 @@ goto:EXIT
 :downFunc
   set Url=%1
   set SaveName=%2
-  (powershell "($client = new-object System.Net.WebClient) -and ($client.DownloadFile('%Url%', '.\client\%SaveName%')) -and (exit)") | cmd
+  (powershell "($client = new-object System.Net.WebClient) -and ($client.DownloadFile('%Url%', '.\client\%SaveName%')) -and (exit)") >nul 2>nul | cmd
