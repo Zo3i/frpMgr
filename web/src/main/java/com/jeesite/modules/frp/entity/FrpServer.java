@@ -49,7 +49,7 @@ public class FrpServer extends DataEntity<FrpServer> {
 		this.userName = userName;
 	}
 
-	@Length(min=0, max=32, message="域名长度不能超过 32 个字符")
+	@Length(min=0, max=50, message="域名长度不能超过 50 个字符")
 	public String getSubdomainHost() {
 		return subdomainHost;
 	}
