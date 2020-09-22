@@ -122,9 +122,11 @@ public class FrpServerController extends BaseController {
 			passwd = AesUtil.decryptAES(passwd);
 			Shell shell = new Shell(frpServer.getServerIp(), frpServer.getUserName(), passwd);
 			try {
-				shellUtil.execute(shell,"if [ ! -f \"fastFrp.sh\" ];then wget https://raw.githubusercontent.com/Zo3i/OCS/master/frp/fastFrp.sh; fi");
+				shellUtil.execute(shell,"rm -rf fastFrp.sh");
+				shellUtil.execute(shell,"wget https://raw.githubusercontent.com/Zo3i/OCS/master/frp/fastFrp.sh");
 				shellUtil.execute(shell,"chmod 755 fastFrp.sh");
-				shellUtil.execute(shell,"bash fastFrp.sh " + frpServer.getWebPort() + " " + frpServer.getSubdomainHost());
+				String token = frpServer.getAuthToken() == null ? "auth_token" : frpServer.getAuthToken();
+				shellUtil.execute(shell,"bash fastFrp.sh " + frpServer.getWebPort() + " " + frpServer.getSubdomainHost() + " " + token);
 			} catch (RuntimeException e) {
 				logger.info(e.toString().split(":")[1]);
 				return e.toString().split(":")[1];

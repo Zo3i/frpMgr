@@ -93,7 +93,10 @@ public class FrpDownloadController extends BaseController {
 			String temp_string = res.toString();
 			//替换模板
 			String serverIp = server.getServerIp();
+			String token = server.getAuthToken() == null ? "autn_token" : server.getAuthToken();
 			temp_string = temp_string.replaceAll("FIX_NAME_HOST", serverIp);
+			temp_string = temp_string.replaceAll("frp_auth_token", token);
+
 			writer.write(temp_string);
 			writer.flush();
 			writer.close();
@@ -161,9 +164,11 @@ public class FrpDownloadController extends BaseController {
 		String serverDomain = server.getSubdomainHost();
 		String temp_string = res.toString();
 		String ip = server.getServerIp();
+		String token = server.getAuthToken() == null ? "autn_token" : server.getAuthToken();
 		temp_string = temp_string.replaceAll("FIX_DOWNLOAD_URL", url);
 		temp_string = temp_string.replaceAll("FIX_SERVER_DOMAIN", serverDomain);
 		temp_string = temp_string.replaceAll("FIX_SERVER_IP", ip);
+		temp_string = temp_string.replaceAll("frp_auth_token", token);
 		//替换模板
 		writer.write(temp_string);
 		writer.flush();

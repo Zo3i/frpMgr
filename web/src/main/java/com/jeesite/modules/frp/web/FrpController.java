@@ -187,10 +187,13 @@ public class FrpController extends BaseController {
         String projectName = frp.getProjectName();
         String subdomain = frp.getFrpDomainSecond();
         String localport = frp.getFrpLocalPort();
+        String token = frpServer.getAuthToken() == null ? "autn_token" : frpServer.getAuthToken();
         temp_string = temp_string.replaceAll("project_name", projectName);
         temp_string = temp_string.replaceAll("frp_subdomain", subdomain);
         temp_string = temp_string.replaceAll("frp_local_port", localport);
         temp_string = temp_string.replaceAll("frp_server_addr", frpServer.getServerIp());
+		temp_string = temp_string.replaceAll("frp_auth_token", token);
+
         writer.write(temp_string);
 		writer.flush();
 		writer.close();
@@ -247,11 +250,15 @@ public class FrpController extends BaseController {
         String projectName = frp.getProjectName();
         String subdomain = frp.getFrpDomainSecond();
         String localport = frp.getFrpLocalPort();
-        temp_string = temp_string.replaceAll("project_name", projectName);
+	    String token = frpServer.getAuthToken() == null ? "autn_token" : frpServer.getAuthToken();
+
+	    temp_string = temp_string.replaceAll("project_name", projectName);
         temp_string = temp_string.replaceAll("frp_subdomain", subdomain);
         temp_string = temp_string.replaceAll("frp_local_port", localport);
         temp_string = temp_string.replaceAll("frp_server_addr", frpServer.getServerIp());
-        writer.write(temp_string);
+	    temp_string = temp_string.replaceAll("frp_auth_token", token);
+
+	    writer.write(temp_string);
 		writer.flush();
 		writer.close();
 

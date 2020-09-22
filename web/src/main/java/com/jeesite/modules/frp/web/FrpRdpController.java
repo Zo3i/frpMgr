@@ -176,9 +176,11 @@ public class FrpRdpController extends BaseController {
 		//替换模板
 		String projectName = frp.getProjectName();
 		String remotePort = frp.getFrpRemotePort();
+		String token = frpServer.getAuthToken() == null ? "autn_token" : frpServer.getAuthToken();
 		temp_string = temp_string.replaceAll("project_name", projectName);
 		temp_string = temp_string.replaceAll("frp_remote_port", remotePort);
 		temp_string = temp_string.replaceAll("frp_server_addr", frpServer.getServerIp());
+		temp_string = temp_string.replaceAll("frp_auth_token", token);
 		writer.write(temp_string);
 		writer.flush();
 		writer.close();

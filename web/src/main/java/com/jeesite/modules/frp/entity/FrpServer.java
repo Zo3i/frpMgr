@@ -21,7 +21,8 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 		@Column(name="subdomain_host", attrName="subdomainHost", label="域名"),
 		@Column(name="server_ip", attrName="serverIp", label="服务器ip"),
 		@Column(name="web_port", attrName="webPort", label="web端口"),
-		@Column(name="server_name", attrName="serverName", label="服务器名称", queryType=QueryType.LIKE),
+		@Column(name="auth_token", attrName="authToken", label="web端口"),
+		@Column(name="server_name", attrName="serverName", label="鉴权Token", queryType=QueryType.LIKE),
 	}, orderBy="a.id DESC"
 )
 public class FrpServer extends DataEntity<FrpServer> {
@@ -32,6 +33,7 @@ public class FrpServer extends DataEntity<FrpServer> {
 	private String serverIp;		// 服务器ip
 	private String serverName;		// 服务器名称
 	private String webPort; //web端口
+	private String authToken;
 	
 	public FrpServer() {
 		super();
@@ -82,5 +84,13 @@ public class FrpServer extends DataEntity<FrpServer> {
 
 	public void setWebPort(String webPort) {
 		this.webPort = webPort;
+	}
+
+	public String getAuthToken() {
+		return authToken;
+	}
+
+	public void setAuthToken(String authToken) {
+		this.authToken = authToken;
 	}
 }
