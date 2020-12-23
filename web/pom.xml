@@ -163,7 +163,7 @@
 					<jeeversion>6.0</jeeversion>
 				</configuration>
 			</plugin>
-<!--第一次打包-->
+<!--第一次打包 包含lib-->
 <!--			<plugin>-->
 <!--				<groupId>org.springframework.boot</groupId>-->
 <!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
@@ -180,7 +180,7 @@
 <!--				</executions>-->
 <!--			</plugin>-->
 
-<!--			&lt;!&ndash;第二次打包&ndash;&gt;-->
+<!--			&lt;!&ndash;第二次打包， 不包含lib&ndash;&gt;-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
