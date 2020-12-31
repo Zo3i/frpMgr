@@ -6,6 +6,7 @@ public enum DownloadType {
     FILE(2, "目录文件"),
     RDP(3, "远程登录"),
     EXE(4, "exe主程序"),
+    MAC(6, "mac主程序"),
     FULL_INI(5, "Full_ini");
 
 
