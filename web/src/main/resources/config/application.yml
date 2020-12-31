@@ -12,19 +12,19 @@ shiro:
   filterChainDefinitions: 
     ${adminPath}/third/** = anon
 
-jdbc:
-  # Mysql 数据库配置(远程)
-  type: mysql
-  driver: com.mysql.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/frp?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
-  username: root
-  password: root
-
 #jdbc:
-#  # Mysql 数据库配置(Docker)
+#  # Mysql 数据库配置(远程)
 #  type: mysql
 #  driver: com.mysql.jdbc.Driver
-#  url: jdbc:mysql://mysql:3306/frp?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
-#  username: docker
-#  password: 123456
+#  url: jdbc:mysql://localhost:3306/frp?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+#  username: root
+#  password: root
+
+jdbc:
+  # Mysql 数据库配置(Docker)
+  type: mysql
+  driver: com.mysql.jdbc.Driver
+  url: jdbc:mysql://mysql:3306/frp?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+  username: docker
+  password: 123456
 

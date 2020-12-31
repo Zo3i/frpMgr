@@ -293,7 +293,7 @@ public class FrpDownloadController extends BaseController {
 			case 3:
 				replace = true;
 				copyPath = filePath + "frpc_rdp_copy.ini";
-				filePath += "frpc_rdp.ini";
+				filePath += "frpc_rdp_mac.ini";
 				break;
 			case 6:
 				copyPath += filePath + "frpc";
