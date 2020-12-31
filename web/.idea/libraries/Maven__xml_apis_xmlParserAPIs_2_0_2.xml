@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: xml-apis:xmlParserAPIs:2.0.2">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/xml-apis/xmlParserAPIs/2.0.2/xmlParserAPIs-2.0.2.jar!/" />
+      <root url="jar://D:/.m2/repository/xml-apis/xmlParserAPIs/2.0.2/xmlParserAPIs-2.0.2.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/xml-apis/xmlParserAPIs/2.0.2/xmlParserAPIs-2.0.2-javadoc.jar!/" />
+      <root url="jar://D:/.m2/repository/xml-apis/xmlParserAPIs/2.0.2/xmlParserAPIs-2.0.2-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/xml-apis/xmlParserAPIs/2.0.2/xmlParserAPIs-2.0.2-sources.jar!/" />
+      <root url="jar://D:/.m2/repository/xml-apis/xmlParserAPIs/2.0.2/xmlParserAPIs-2.0.2-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

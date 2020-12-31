@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: eu.bitwalker:UserAgentUtils:1.20">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/eu/bitwalker/UserAgentUtils/1.20/UserAgentUtils-1.20.jar!/" />
+      <root url="jar://D:/.m2/repository/eu/bitwalker/UserAgentUtils/1.20/UserAgentUtils-1.20.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/eu/bitwalker/UserAgentUtils/1.20/UserAgentUtils-1.20-javadoc.jar!/" />
+      <root url="jar://D:/.m2/repository/eu/bitwalker/UserAgentUtils/1.20/UserAgentUtils-1.20-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/eu/bitwalker/UserAgentUtils/1.20/UserAgentUtils-1.20-sources.jar!/" />
+      <root url="jar://D:/.m2/repository/eu/bitwalker/UserAgentUtils/1.20/UserAgentUtils-1.20-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

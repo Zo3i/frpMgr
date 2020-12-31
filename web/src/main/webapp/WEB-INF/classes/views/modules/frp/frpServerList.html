@@ -77,6 +77,29 @@
 	</div><!-- /.modal -->
 </div>
 
+
+<div class="modal fade" id="MacModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="MacModalLabel">
+					复制到本地执行
+				</h4>
+			</div>
+			<div class="modal-body">
+				<div id="macBashUrl"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+
 <% } %>
 
 <script src="${ctxStatic}/aes/aes.js?${_version}"></script>
@@ -93,13 +116,14 @@ $('#dataGrid').dataGrid({
 		{header:'${text('域名')}', name:'subdomainHost', index:'a.subdomain_host', width:100, align:"center"},
 		{header:'${text('web端口')}', name:'webPort', index:'a.web_port', width:80, align:"center"},
 		{header:'${text('服务器用户名')}', name:'userName', index:'a.user_name', width:80, align:"center", frozen:true},
-		{header:'${text('操作')}', name:'actions', width:120, sortable:false, align:"center", title:false, formatter: function(val, obj, row, act){
+		{header:'${text('操作')}', name:'actions', width:150, sortable:false, align:"center", title:false, formatter: function(val, obj, row, act){
 			var actions = [];
 			<% if(hasPermi('frp:frpServer:edit')){ %>
 				actions.push('<a href="${ctx}/frp/frpServer/form?id='+row.id+'" class="btnList" title="${text('编辑frp_server')}"><i class="fa fa-pencil"></i></a>&nbsp;');
 				actions.push('<a href="${ctx}/frp/frpServer/delete?id='+row.id+'" class="btnList" title="${text('删除frp_server')}" data-confirm="${text('确认要删除该frp_server吗？')}"><i class="fa fa-trash-o"></i></a>&nbsp;');
                 actions.push('<a style="cursor:pointer;"  onclick="fastFrp(\''+row.id+'\')">远程安装</a>&nbsp;')
 				actions.push('<a style="cursor:pointer;"  onclick="downBat(\''+row.id+'\')">BAT脚本</a>&nbsp;')
+					actions.push('<a style="cursor:pointer;"  onclick="downMacBash(\''+row.id+'\')">MAC脚本</a>&nbsp;')
 			<% } %>
 			return actions.join('');
 		}}
@@ -155,5 +179,11 @@ $('#dataGrid').dataGrid({
 
     function downBat(id) {
 		window.open("${ctx}/frp/bat/batDown/" + id)
+	}
+
+	function downMacBash(id) {
+		$('#MacModal').modal('show')
+		console.log("bashUrl: ", document.location.origin + "${ctx}/frp/bat/macBash/" + id)
+		$("#macBashUrl").text("curl -o frp.sh " + document.location.origin + "${ctx}/frp/bat/macBash/" + id + " && bash frp.sh");
 	}
 </script>

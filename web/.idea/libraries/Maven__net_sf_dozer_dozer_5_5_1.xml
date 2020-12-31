@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: net.sf.dozer:dozer:5.5.1">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/net/sf/dozer/dozer/5.5.1/dozer-5.5.1.jar!/" />
+      <root url="jar://D:/.m2/repository/net/sf/dozer/dozer/5.5.1/dozer-5.5.1.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/net/sf/dozer/dozer/5.5.1/dozer-5.5.1-javadoc.jar!/" />
+      <root url="jar://D:/.m2/repository/net/sf/dozer/dozer/5.5.1/dozer-5.5.1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/net/sf/dozer/dozer/5.5.1/dozer-5.5.1-sources.jar!/" />
+      <root url="jar://D:/.m2/repository/net/sf/dozer/dozer/5.5.1/dozer-5.5.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
