@@ -66,3 +66,8 @@ wget -O - https://raw.githubusercontent.com/Zo3i/frpMgr/master/web/src/main/dock
 
 - 等待FRP服务安装完成之后，配置客户端配置，即可使用了。
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Zo3i/frpMgr&type=Timeline)](https://star-history.com/#Zo3i/frpMgr&Timeline)
+
+
