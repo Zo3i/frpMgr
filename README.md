@@ -50,4 +50,8 @@ just run the code above on your server;
 
   ---
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Zo3i/frpMgr&type=Timeline)](https://star-history.com/#Zo3i/frpMgr&Timeline)
+
   
